@@ -77,8 +77,80 @@ const getPedidosByUsuario = async (req, res) => {
   }
 };
 
+// POST /pedido - Criar um novo pedido
+const createPedido = async (req, res) => {
+  try {
+    const pedidoData = req.body;
+    if (!pedidoData.idCliente || !pedidoData.itens || pedidoData.itens.length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "Dados incompletos. 'idCliente' e 'itens' são obrigatórios."
+      });
+    }
+
+    const novoPedidoId = await PedidoModel.create(pedidoData);
+    return res.status(201).json({
+      success: true,
+      data: { id: novoPedidoId },
+      message: "Pedido criado com sucesso!"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message
+    });
+  }
+};
+
+// PUT /pedido/:idPedido - Atualizar status
+const updatePedidoStatus = async (req, res) => {
+  try {
+    const { idPedido } = req.params;
+    const { status } = req.body; 
+
+    if (!status) {
+      return res.status(400).json({
+        success: false,
+        message: "O novo 'status' é obrigatório no corpo (body) da requisição."
+      });
+    }
+
+    const validStatus = ['Pendente', 'Em preparo', 'Saiu para entrega', 'Entregue', 'Cancelado'];
+    if (!validStatus.includes(status)) {
+        return res.status(400).json({
+            success: false,
+            message: `Status inválido. Use um dos: ${validStatus.join(', ')}`
+        });
+    }
+
+    const affectedRows = await PedidoModel.updateStatus(idPedido, status);
+    if (affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        data: null,
+        message: "Pedido não encontrado com o ID fornecido."
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: { id: idPedido, newStatus: status },
+      message: "Status do pedido atualizado com sucesso!"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getPedidos,
   getPedidoById,
-  getPedidosByUsuario
+  getPedidosByUsuario,
+  createPedido,
+  updatePedidoStatus
 };

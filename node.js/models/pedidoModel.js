@@ -1,11 +1,11 @@
-const db = require("../config/db");
+const { pool } = require("../config/db");
 
 class PedidoModel {
   // Buscar todos os pedidos
   static async findAll() {
     const query = "SELECT * FROM pedido";
     try {
-      const [rows] = await db.query(query);
+      const [rows] = await pool.query(query);
       return rows;
     } catch (error) {
       throw new Error(`Erro ao buscar pedidos: ${error.message}`);
@@ -16,7 +16,7 @@ class PedidoModel {
   static async findById(idPedido) {
     const query = "SELECT * FROM pedido WHERE idPedido = ?";
     try {
-      const [rows] = await db.query(query, [idPedido]);
+      const [rows] = await pool.query(query, [idPedido]);
       return rows[0] || null;
     } catch (error) {
       throw new Error(`Erro ao buscar pedido: ${error.message}`);
@@ -27,7 +27,7 @@ class PedidoModel {
   static async findByUsuario(idUsuario) {
     const query = "SELECT * FROM pedido WHERE idUsuario = ?";
     try {
-      const [rows] = await db.query(query, [idUsuario]);
+      const [rows] = await pool.query(query, [idUsuario]);
       return rows;
     } catch (error) {
       throw new Error(`Erro ao buscar pedidos do usuário: ${error.message}`);
@@ -38,11 +38,11 @@ class PedidoModel {
    */
   static async updateStatus(idPedido, status) {
    
-    const query = "UPDATE pedido SET status = ? WHERE id = ?";
+    const query = "UPDATE pedido SET status = ? WHERE idPedido = ?";
     
     try {
       // Passamos [status, idPedido] para substituir os '?'
-      const [result] = await db.query(query, [status, idPedido]);
+      const [result] = await pool.query(query, [status, idPedido]);
       
       // Retorna o número de linhas que foram de fato atualizadas
       // Se for 0, significa que o 'idPedido' não foi encontrado.

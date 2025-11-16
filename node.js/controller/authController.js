@@ -6,13 +6,13 @@ const ClienteModel = require("../models/clienteModel");
 // POST /auth/register - Registrar novo usuário
 const register = async (req, res) => {
   try {
-    const { nome, email, telefone, senha } = req.body;
+    const { nome, email, telefone } = req.body;
 
-    // Validações
-    if (!nome || !email || !telefone || !senha) {
+    // Validações: senha não é obrigatória nessa versão (projeto de faculdade)
+    if (!nome || !email || !telefone) {
       return res.status(400).json({
         success: false,
-        message: "nome, email, telefone e senha são obrigatórios"
+        message: "nome, email e telefone são obrigatórios"
       });
     }
 
@@ -38,8 +38,7 @@ const register = async (req, res) => {
     const novoClienteId = await ClienteModel.create({
       nome,
       email,
-      telefone,
-      senha
+      telefone
     });
 
     // Gerar JWT
@@ -92,13 +91,8 @@ const login = async (req, res) => {
       });
     }
 
-    // Verificar senha
-    if (cliente.senha !== senha) {
-      return res.status(401).json({
-        success: false,
-        message: "Senha incorreta"
-      });
-    }
+    // Nesta versão para testes acadêmicos, não há verificação de senha
+    // (a tabela cliente não possui coluna senha). Aceita qualquer senha se o email existir.
 
     // Gerar JWT
     const token = jwt.sign(

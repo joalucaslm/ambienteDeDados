@@ -1,4 +1,4 @@
-package unifor.ambientededados.api;
+package com.ambientedados.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

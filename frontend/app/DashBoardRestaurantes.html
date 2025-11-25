@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Restaurante Saboroso - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@400&amp;opsz=20&amp;FILL=0" rel="stylesheet"/>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings:
+      'FILL' 0,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 20
+    }
+  </style>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#f45925",
+            "background-light": "#f8f6f5",
+            "background-dark": "#221410",
+          },
+          fontFamily: {
+            "display": ["Be Vietnam Pro", "sans-serif"]
+          },
+          borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+        },
+      },
+    }
+  </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<div class="flex flex-1 justify-center py-5 md:px-10 lg:px-20 xl:px-40">
+<div class="layout-content-container flex flex-col w-full max-w-[1200px] flex-1">
+<!-- Top Nav Bar -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-[#e6dedb] dark:border-[#3a2b27] px-4 md:px-10 py-3 bg-white dark:bg-[#181311]/80 backdrop-blur-sm sticky top-0 z-10">
+<div class="flex items-center gap-4 text-[#181311] dark:text-white">
+<div class="size-8 text-primary">
+<svg fill="currentColor" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<path clip-rule="evenodd" d="M39.475 21.6262C40.358 21.4363 40.6863 21.5589 40.7581 21.5934C40.7876 21.655 40.8547 21.857 40.8082 22.3336C40.7408 23.0255 40.4502 24.0046 39.8572 25.2301C38.6799 27.6631 36.5085 30.6631 33.5858 33.5858C30.6631 36.5085 27.6632 38.6799 25.2301 39.8572C24.0046 40.4502 23.0255 40.7407 22.3336 40.8082C21.8571 40.8547 21.6551 40.7875 21.5934 40.7581C21.5589 40.6863 21.4363 40.358 21.6262 39.475C21.8562 38.4054 22.4689 36.9657 23.5038 35.2817C24.7575 33.2417 26.5497 30.9744 28.7621 28.762C30.9744 26.5497 33.2417 24.7574 35.2817 23.5037C36.9657 22.4689 38.4054 21.8562 39.475 21.6262ZM4.41189 29.2403L18.7597 43.5881C19.8813 44.7097 21.4027 44.9179 22.7217 44.7893C24.0585 44.659 25.5148 44.1631 26.9723 43.4579C29.9052 42.0387 33.2618 39.5667 36.4142 36.4142C39.5667 33.2618 42.0387 29.9052 43.4579 26.9723C44.1631 25.5148 44.659 24.0585 44.7893 22.7217C44.9179 21.4027 44.7097 19.8813 43.5881 18.7597L29.2403 4.41187C27.8527 3.02428 25.8765 3.02573 24.2861 3.36776C22.6081 3.72863 20.7334 4.58419 18.8396 5.74801C16.4978 7.18716 13.9881 9.18353 11.5858 11.5858C9.18354 13.988 7.18717 16.4978 5.74802 18.8396C4.58421 20.7334 3.72865 22.6081 3.36778 24.2861C3.02574 25.8765 3.02429 27.8527 4.41189 29.2403Z" fill="currentColor" fill-rule="evenodd"></path>
+</svg>
+</div>
+<h2 class="text-[#181311] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Restaurante Saboroso</h2>
+</div>
+
+</header>
+<main class="flex-1 p-4">
+
+<div class="pt-6 pb-3">
+<div class="flex border-b border-[#e6dedb] dark:border-[#3a2b27] justify-between">
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-primary text-primary pb-[13px] pt-4 flex-1 text-center" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Novos Pedidos (2)</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#8a6b60] dark:text-gray-400 pb-[13px] pt-4 flex-1 text-center" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Em Preparação (1)</p>
+</a>
+<a class="flex flex-col items-center justify-center border-b-[3px] border-b-transparent text-[#8a6b60] dark:text-gray-400 pb-[13px] pt-4 flex-1 text-center" href="#">
+<p class="text-sm font-bold leading-normal tracking-[0.015em]">Saiu para Entrega (1)</p>
+</a>
+</div>
+</div>
+<!-- Order Cards -->
+<div class="space-y-4">
+<!-- Card 1 -->
+<div class="@container">
+<div class="flex flex-col items-stretch justify-start rounded-lg shadow-[0_0_4px_rgba(0,0,0,0.1)] bg-white dark:bg-[#181311] dark:border dark:border-[#3a2b27]">
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 p-4">
+<p class="text-[#8a6b60] dark:text-gray-400 text-sm font-normal leading-normal">Pedido #12345</p>
+<p class="text-[#181311] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Ana Silva</p>
+<div class="flex flex-col gap-3 pt-2 sm:flex-row sm:items-end sm:justify-between">
+<div class="flex flex-col gap-1">
+<p class="text-[#8a6b60] dark:text-gray-400 text-base font-normal leading-normal">2x X-Burger, 1x Batata Frita, 1x Refrigerante</p>
+<p class="text-[#8a6b60] dark:text-gray-400 text-base font-normal leading-normal">Observações: Sem cebola no hambúrguer.</p>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-medium leading-normal self-start sm:self-end">
+<span class="truncate">Aceitar Pedido</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="@container">
+<div class="flex flex-col items-stretch justify-start rounded-lg shadow-[0_0_4px_rgba(0,0,0,0.1)] bg-white dark:bg-[#181311] dark:border dark:border-[#3a2b27]">
+<div class="flex w-full min-w-72 grow flex-col items-stretch justify-center gap-1 p-4">
+<p class="text-[#8a6b60] dark:text-gray-400 text-sm font-normal leading-normal">Pedido #12344</p>
+<p class="text-[#181311] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em]">Carlos Pereira</p>
+<div class="flex flex-col gap-3 pt-2 sm:flex-row sm:items-end sm:justify-between">
+<div class="flex flex-col gap-1">
+<p class="text-[#8a6b60] dark:text-gray-400 text-base font-normal leading-normal">1x Pizza de Calabresa, 1x Suco de Laranja</p>
+<p class="text-[#8a6b60] dark:text-gray-400 text-base font-normal leading-normal">Observações: Nenhuma.</p>
+</div>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-10 px-4 bg-primary text-white text-sm font-medium leading-normal self-start sm:self-end">
+<span class="truncate">Aceitar Pedido</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+</div>
+</div>
+<script src="./dashboard.js"></script>
+</body></html>

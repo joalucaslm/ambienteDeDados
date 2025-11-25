@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AmbienteDeDados - Food Delivery</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container-header">
+      <h1><a href="#" onclick="navigate('home')">🍽️ AmbienteDeDados</a></h1>
+      <nav class="nav">
+        <a href="#" onclick="navigate('home')">Restaurantes</a>
+        <a href="#" onclick="navigate('cart')">🛒 Carrinho (<span id="cart-count">0</span>)</a>
+        <div id="auth-nav">
+          <a href="#" onclick="navigate('login')">Login</a>
+          <a href="#" onclick="navigate('register')">Registrar</a>
+        </div>
+        <div id="user-nav" style="display:none;">
+          <a href="#" onclick="navigate('profile')">Perfil</a>
+          <span id="user-name"></span>
+          <button onclick="logout()">Sair</button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Home / Restaurantes -->
+    <div id="page-home" class="page">
+      <h2>Restaurantes</h2>
+      <div id="restaurants-list" class="list-grid">
+        <!-- Preenchido por JS -->
+      </div>
+    </div>
+
+    <!-- Login -->
+    <div id="page-login" class="page" style="display:none;">
+      <div class="form-container">
+        <h2>Login</h2>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="login-email" required>
+          </div>
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="login-senha" required>
+          </div>
+          <button type="submit">Entrar</button>
+          <p class="error-msg" id="login-error"></p>
+        </form>
+        <p>Não tem conta? <a href="#" onclick="navigate('register')">Registre-se</a></p>
+      </div>
+    </div>
+
+    <!-- Register -->
+    <div id="page-register" class="page" style="display:none;">
+      <div class="form-container">
+        <h2>Criar Conta</h2>
+        <form onsubmit="handleRegister(event)">
+          <div class="form-group">
+            <label>Nome</label>
+            <input type="text" id="register-nome" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="register-email" required>
+          </div>
+          <div class="form-group">
+            <label>Telefone</label>
+            <input type="text" id="register-telefone" required>
+          </div>
+          <div class="form-group">
+            <label>Senha</label>
+            <input type="password" id="register-senha" required>
+          </div>
+          <button type="submit">Criar Conta</button>
+          <p class="error-msg" id="register-error"></p>
+        </form>
+        <p>Já tem conta? <a href="#" onclick="navigate('login')">Faça login</a></p>
+      </div>
+    </div>
+
+    <!-- Restaurant Detail -->
+    <div id="page-restaurant-detail" class="page" style="display:none;">
+      <div id="restaurant-info">
+        <!-- Preenchido por JS -->
+      </div>
+      <h3>Cardápio</h3>
+      <div id="items-list" class="list-grid">
+        <!-- Preenchido por JS -->
+      </div>
+    </div>
+
+    <!-- Cart -->
+    <div id="page-cart" class="page" style="display:none;">
+      <h2>Carrinho</h2>
+      <div id="cart-items-list">
+        <!-- Preenchido por JS -->
+      </div>
+      <div class="cart-summary">
+        <h3>Total: R$ <span id="cart-total">0.00</span></h3>
+        <button onclick="checkout()" id="checkout-btn">Finalizar Pedido</button>
+      </div>
+    </div>
+
+    <!-- Profile / Orders -->
+    <div id="page-profile" class="page" style="display:none;">
+      <h2>Meu Perfil</h2>
+      <div id="profile-info">
+        <!-- Preenchido por JS -->
+      </div>
+      <h3>Meus Pedidos</h3>
+      <div id="orders-list">
+        <!-- Preenchido por JS -->
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 AmbienteDeDados. Todos os direitos reservados.</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

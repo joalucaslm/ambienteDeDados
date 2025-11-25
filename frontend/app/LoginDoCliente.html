@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login - Sistema de Delivery</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f45925",
+              "background-light": "#f8f6f5",
+              "background-dark": "#221410",
+              "text-light": "#181311",
+              "text-dark": "#f8f6f5",
+              "subtle-light": "#8a6b60",
+              "subtle-dark": "#a1918b",
+              "border-light": "#e6dedb",
+              "border-dark": "#40322d",
+            },
+            fontFamily: {
+              "display": ["Be Vietnam Pro", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+</head>
+<body class="font-display">
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light dark:bg-background-dark group/design-root overflow-x-hidden p-4">
+<div class="layout-container flex h-full grow flex-col justify-center">
+<div class="layout-content-container flex flex-col w-full max-w-md">
+<!-- Logo -->
+<div class="flex justify-center pb-8">
+<div class="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-white">
+<span class="material-symbols-outlined !text-4xl">fastfood</span>
+</div>
+</div>
+<!-- Heading -->
+<div class="flex flex-wrap justify-center gap-3 text-center mb-6">
+<div class="flex w-full flex-col gap-2">
+<p class="text-text-light dark:text-text-dark tracking-tight text-3xl font-bold leading-tight">Bem-vindo de volta!</p>
+<p class="text-subtle-light dark:text-subtle-dark text-base font-normal leading-normal">Acesse sua conta para continuar.</p>
+</div>
+</div>
+<!-- Form Fields -->
+<div class="flex w-full flex-col gap-4">
+<!-- Email Field -->
+<label class="flex flex-col flex-1">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2">E-mail ou Usuário</p>
+<div class="relative flex w-full items-center">
+<span class="material-symbols-outlined absolute left-4 text-subtle-light dark:text-subtle-dark">person</span>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-white dark:bg-background-dark h-14 placeholder:text-subtle-light dark:placeholder:text-subtle-dark pl-12 pr-4 py-3 text-base font-normal leading-normal" placeholder="Digite seu e-mail ou usuário" value=""/>
+</div>
+</label>
+<!-- Password Field -->
+<label class="flex flex-col flex-1">
+<p class="text-text-light dark:text-text-dark text-sm font-medium leading-normal pb-2">Senha</p>
+<div class="relative flex w-full items-center">
+<span class="material-symbols-outlined absolute left-4 text-subtle-light dark:text-subtle-dark">lock</span>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-lg text-text-light dark:text-text-dark focus:outline-0 focus:ring-2 focus:ring-primary/50 border border-border-light dark:border-border-dark bg-white dark:bg-background-dark h-14 placeholder:text-subtle-light dark:placeholder:text-subtle-dark pl-12 pr-12 py-3 text-base font-normal leading-normal" placeholder="Digite sua senha" type="password" value=""/>
+<button aria-label="Mostrar senha" class="absolute right-0 flex h-14 w-14 items-center justify-center text-subtle-light dark:text-subtle-dark">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</label>
+</div>
+<!-- Forgot Password Link -->
+<div class="w-full text-right mt-2">
+<a class="text-primary text-sm font-medium leading-normal underline hover:text-primary/80" href="#">Esqueci minha senha</a>
+</div>
+<!-- Buttons & Links -->
+<div class="flex w-full flex-col items-center gap-4 pt-8">
+<!-- Primary Button -->
+<button class="flex h-14 w-full items-center justify-center rounded-lg bg-primary px-6 text-base font-bold text-white shadow-sm transition-all hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 dark:ring-offset-background-dark">
+                        Entrar
+                    </button>
+<!-- Secondary Link -->
+<p class="text-subtle-light dark:text-subtle-dark text-sm font-normal leading-normal">
+                        Primeira vez aqui? <a class="font-semibold text-primary underline hover:text-primary/80" href="#">Crie sua conta</a>
+</p>
+</div>
+</div>
+</div>
+</div>
+<script src="login.js" defer></script>
+</body></html>

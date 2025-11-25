@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Cantina Italiana - Menu</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f45925",
+              "background-light": "#f8f6f5",
+              "background-dark": "#221410",
+            },
+            fontFamily: {
+              "display": ["Be Vietnam Pro", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.5rem",
+              "lg": "1rem",
+              "xl": "1.5rem",
+              "full": "9999px"
+            },
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+    </style>
+</head>
+<body class="font-display bg-background-light dark:bg-background-dark text-stone-800 dark:text-stone-200">
+<div class="relative flex min-h-screen w-full flex-col bg-background-light dark:bg-background-dark">
+<main class="flex-1 pb-24">
+<!-- HeaderImage -->
+<div class="relative">
+<div class="bg-cover bg-center flex flex-col justify-end overflow-hidden min-h-[240px]" data-alt="Interior of a cozy Italian restaurant with warm lighting." style='background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0) 40%), url("https://lh3.googleusercontent.com/aida-public/AB6AXuAhc9NXSZ0iJBzmvFxEJeUtvbuf_YE9_HoUJ46NlX6vFJwKfDo-J38hm9Z_R9fHv2wnUtlglFSQ1EnXPhkk9yTU0vrcliZ7CdrL7N_oaiDhTDFUhRIcvij7Vl5Vgi5O6tqvZV97_LiZDvx-6tONz0OJ-G_1-fveCBCaIEGwmMFZGAwYztGGqrtQDzgf0BgYwKPoEtHo_OTjt7LKaGL5lsWPTy1Aqppe5vaKSYQPIuIqWwLs3Pz69326pM9Fp-TAGxQ70Cxv5_jbWVQ");'>
+<div class="p-4 md:p-6"><h1 class="text-white tracking-tight text-[28px] md:text-4xl font-bold leading-tight">Cantina Italiana</h1></div>
+</div>
+</div>
+<div class="max-w-4xl mx-auto px-4">
+<!-- MetaText -->
+<p class="text-stone-600 dark:text-stone-400 text-sm font-normal leading-normal pb-3 pt-4">Italiana • ⭐ 4.8 • 30-45 min delivery</p>
+<!-- Chips (Category Navigation) -->
+<div class="sticky top-0 bg-background-light dark:bg-background-dark py-3 z-10 -mx-4 px-4 overflow-x-auto">
+<div class="flex gap-3 whitespace-nowrap">
+<a class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary/20 dark:bg-primary/30 px-4" href="#entradas">
+<p class="text-primary text-sm font-medium leading-normal">Entradas</p>
+</a>
+<a class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-stone-200 dark:bg-stone-800 px-4" href="#pratos-principais">
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium leading-normal">Pratos Principais</p>
+</a>
+<a class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-stone-200 dark:bg-stone-800 px-4" href="#pizzas">
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium leading-normal">Pizzas</p>
+</a>
+<a class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-stone-200 dark:bg-stone-800 px-4" href="#bebidas">
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium leading-normal">Bebidas</p>
+</a>
+<a class="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-stone-200 dark:bg-stone-800 px-4" href="#sobremesas">
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium leading-normal">Sobremesas</p>
+</a>
+</div>
+</div>
+<!-- Menu Section: Entradas -->
+<section id="entradas">
+<!-- SectionHeader -->
+<h2 class="text-stone-900 dark:text-stone-100 text-[22px] font-bold leading-tight tracking-[-0.015em] pb-2 pt-6">Entradas</h2>
+<div class="flex flex-col gap-4">
+<!-- Card 1 -->
+<div class="p-4 bg-white dark:bg-stone-900/50 rounded-xl">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-[2_2_0px] flex-col gap-2">
+<div class="flex flex-col gap-1">
+<p class="text-stone-900 dark:text-stone-100 text-base font-bold leading-tight">Bruschetta Tradicional</p>
+<p class="text-stone-600 dark:text-stone-400 text-sm font-normal leading-normal">Pão italiano tostado com tomates frescos, alho e manjericão.</p>
+</div>
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium">R$ 25,90</p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-3 mt-2 bg-primary/20 dark:bg-primary/30 text-primary gap-1 text-sm font-medium leading-normal w-fit">
+<span class="truncate">Adicionar</span>
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<div class="w-24 h-24 sm:w-28 sm:h-28 bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex-shrink-0" data-alt="Close-up of a delicious bruschetta with fresh tomatoes." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDyyF593_aArQ3niCKgRJvaPJJKCtAQyN7Y6-4b8I7bq-XXzcJhqsCpzs6jgsE9L29-P8st7iN1_o5zUr2zKbaTP2mBMvTmA8f25FPIBR_tXlf2FomrcyfoGbq3uxN8yZt9nhWQzUlg2_cILPGzAp1yNFtkwPd8bIORlRxFq6LjBwYHmsGbc6pyqbBt8XPLaspMCQriWpfOnOODfgF5dpt8ca6nr-tej399CZ1vn0PzIUaJd3-EYt8upALju7lXCGkKYOMjnFxIWTQ");'></div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-4 bg-white dark:bg-stone-900/50 rounded-xl">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-[2_2_0px] flex-col gap-2">
+<div class="flex flex-col gap-1">
+<p class="text-stone-900 dark:text-stone-100 text-base font-bold leading-tight">Carpaccio de Carne</p>
+<p class="text-stone-600 dark:text-stone-400 text-sm font-normal leading-normal">Finas fatias de carne crua, com alcaparras, parmesão e molho de mostarda.</p>
+</div>
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium">R$ 38,50</p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-3 mt-2 bg-primary/20 dark:bg-primary/30 text-primary gap-1 text-sm font-medium leading-normal w-fit">
+<span class="truncate">Adicionar</span>
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<div class="w-24 h-24 sm:w-28 sm:h-28 bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex-shrink-0" data-alt="A plate of beef carpaccio elegantly arranged with parmesan shavings." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyhCQPHPPpZnSXMmMLhkbQz0YmMzUe3Fu2ousQTm2bfrssKCx0H0DglRj-Oiz9JHpNK-qev7TtyGNouQzVVTyM5YpoE7yrjsXbGuDtMifAXAVuh5bmkOBqcTuoFAOtitWD0yLxjvxukmzT7l7qQ-aKzhV_Hndat6lfywscsMJD-hXi33hTELd0-YZT3ycFNz-T-H-brBIdrWqx0DrdRP-G89B7xXw3Fyx1Fa1ZH5sYnY9VB_saHW7gFbvdOb9opOkXejVWNlXsxnI");'></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Menu Section: Pratos Principais -->
+<section id="pratos-principais">
+<!-- SectionHeader -->
+<h2 class="text-stone-900 dark:text-stone-100 text-[22px] font-bold leading-tight tracking-[-0.015em] pb-2 pt-8">Pratos Principais</h2>
+<div class="flex flex-col gap-4">
+<!-- Card 3 -->
+<div class="p-4 bg-white dark:bg-stone-900/50 rounded-xl">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-[2_2_0px] flex-col gap-2">
+<div class="flex flex-col gap-1">
+<p class="text-stone-900 dark:text-stone-100 text-base font-bold leading-tight">Spaghetti alla Carbonara</p>
+<p class="text-stone-600 dark:text-stone-400 text-sm font-normal leading-normal">Massa com ovos, queijo pecorino, pancetta e pimenta do reino.</p>
+</div>
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium">R$ 55,00</p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-3 mt-2 bg-primary/20 dark:bg-primary/30 text-primary gap-1 text-sm font-medium leading-normal w-fit">
+<span class="truncate">Adicionar</span>
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<div class="w-24 h-24 sm:w-28 sm:h-28 bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex-shrink-0" data-alt="A bowl of spaghetti carbonara with crispy pancetta." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDURFYkAmrorZuo1qX7EShgAOGDbDy2gVzmA4SCG6IaaUPZP1ohRJqHwg9D7awWOjEdHn5YuakaNP8ALPYzHmfrVjWb-mQa8B55N8b4J-MZHlV-9-ECOhDaCHGlNYZK9dFJRgro8K-P1XQgsUaKIuG6RA8SWlrdp3er0QoCCLllYFjqp1vAmtrmcZtwGTmLWtbNVeAlALjbafuil_YeYM6uuY1B9ppx3bnpaKcQJhhn23bokH48iymvEwI4BG_BVOEX90UBsIJ573I");'></div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="p-4 bg-white dark:bg-stone-900/50 rounded-xl">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-[2_2_0px] flex-col gap-2">
+<div class="flex flex-col gap-1">
+<p class="text-stone-900 dark:text-stone-100 text-base font-bold leading-tight">Risotto ai Funghi</p>
+<p class="text-stone-600 dark:text-stone-400 text-sm font-normal leading-normal">Arroz arbóreo cremoso com cogumelos frescos e parmesão.</p>
+</div>
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium">R$ 62,90</p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-3 mt-2 bg-primary/20 dark:bg-primary/30 text-primary gap-1 text-sm font-medium leading-normal w-fit">
+<span class="truncate">Adicionar</span>
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<div class="w-24 h-24 sm:w-28 sm:h-28 bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex-shrink-0" data-alt="A creamy mushroom risotto in a white bowl." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD1nUf86rK2I4FkQGFO7Qt1z3MN2pbu3Iv9zKan5lEGMvmWAUsTwEa2yo-x3xlml_hd2QtI7ak-6WFcUNmZDJJh0SWJQ6cDVMagC-6z7vvIIwZtDEIYGvzYASlYxIPMj-UH7CKdG4ZSONotzxgX7mZm4ouqmE9kHHNl9pOrH0T35GEsw643C6uLjx-vWCQxVTxlsFukyLZQxHEbLB6dcKWLZKmfimmGXPNGodrlysHMnVryO5ArvBfoYvzFZjG6ITGNSgVa6Fwg4UI");'></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Menu Section: Pizzas -->
+<section id="pizzas">
+<!-- SectionHeader -->
+<h2 class="text-stone-900 dark:text-stone-100 text-[22px] font-bold leading-tight tracking-[-0.015em] pb-2 pt-8">Pizzas</h2>
+<div class="flex flex-col gap-4">
+<!-- Card 5 -->
+<div class="p-4 bg-white dark:bg-stone-900/50 rounded-xl">
+<div class="flex items-start justify-between gap-4">
+<div class="flex flex-[2_2_0px] flex-col gap-2">
+<div class="flex flex-col gap-1">
+<p class="text-stone-900 dark:text-stone-100 text-base font-bold leading-tight">Pizza Margherita</p>
+<p class="text-stone-600 dark:text-stone-400 text-sm font-normal leading-normal">Molho de tomate, mozzarella fresca, manjericão e azeite.</p>
+</div>
+<p class="text-stone-800 dark:text-stone-200 text-sm font-medium">R$ 48,00</p>
+<button class="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-lg h-8 px-3 mt-2 bg-primary/20 dark:bg-primary/30 text-primary gap-1 text-sm font-medium leading-normal w-fit">
+<span class="truncate">Adicionar</span>
+<span class="material-symbols-outlined text-base">add</span>
+</button>
+</div>
+<div class="w-24 h-24 sm:w-28 sm:h-28 bg-center bg-no-repeat aspect-square bg-cover rounded-lg flex-shrink-0" data-alt="A classic pizza margherita with fresh basil leaves." style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCK-qrQTNATJG4vM5Iz4zd0ZnsIJDRb25sJ4BcIrHAJjkwXmriX-OCTYS57OzlBkjADFLTmqKiVzCzzqUfifBJCoqEWoULJTYFJbs850Zy8J1GzPInf4Y_0EjZJh4m-R4kl8Qfqrt_Lw_PZWN40ctDc_e86fIwjmYCTwveqUxu0TAR5LaqQn7pQcr4BLFxsAE_ir2shcdCC9B8rd3Kk9UqYhNiprbJlGLOuFX843DE6jMbGmREOTycso8RxE0PGSywsNN4H_BYsYog");'></div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Persistent Footer / View Cart Button -->
+<footer class="fixed bottom-0 left-0 right-0 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-sm p-4 border-t border-stone-200 dark:border-stone-800">
+<div class="max-w-4xl mx-auto">
+<button class="w-full flex items-center justify-between gap-4 rounded-lg h-12 px-4 bg-primary text-white text-base font-bold">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span>Ver carrinho</span>
+</div>
+<div class="flex items-center gap-3">
+<span>R$ 83,90</span>
+<div class="flex items-center justify-center w-6 h-6 rounded-full bg-white/20 text-sm font-bold">
+<span>2</span>
+</div>
+</div>
+</button>
+</div>
+</footer>
+</div>
+<script src="cardapio.js"></script>
+</body></html>

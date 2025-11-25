@@ -55,7 +55,7 @@ export default function Entregador() {
   };
 
   return (
-    <article className="bg-gradient-to-br from-blue-50 to-indigo-100 w-full min-h-screen p-6">
+    <article className="from-blue-50 to-indigo-100 w-full min-h-screen p-6">
       <div className="max-w-2xl mx-auto">
         <div className="bg-white rounded-lg shadow-lg p-8">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">

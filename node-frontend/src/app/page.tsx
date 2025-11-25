@@ -12,7 +12,8 @@ export default function Home() {
     "Restaurante",
     "TipoCozinha",
     "TipoItem",
-    "Dashboard"
+    "DashboardPedidos",
+    "DashboardRestaurantes"
   ];
 
   return (

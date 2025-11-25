@@ -80,7 +80,7 @@ const getPedidosByUsuario = async (req, res) => {
 
 const getPedidosByCliente = async (req, res) => {
   try {
-    const { idCliente } = req.query;
+    const { idCliente } = req.params;
 
     if (!idCliente) {
       return res.status(400).json({

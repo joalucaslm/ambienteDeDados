@@ -1,0 +1,85 @@
+"use client";
+
+import { useState } from "react";
+import { Tag } from "lucide-react";
+
+export default function TipoItem() {
+  const [formData, setFormData] = useState({
+    nome: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async () => {
+    try {
+      const response = await fetch("http://localhost:8080/item/tipoItem", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Tipo de item cadastrado:", data);
+        alert("Tipo de item cadastrado com sucesso!");
+        setFormData({ nome: "" });
+      } else {
+        alert("Erro ao cadastrar tipo de item. Tente novamente.");
+      }
+    } catch (error) {
+      console.error("Erro:", error);
+      alert("Erro ao conectar com o servidor.");
+    }
+  };
+
+  return (
+    <article className="bg-gradient-to-br from-teal-50 to-cyan-100 w-full min-h-screen p-6">
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white rounded-lg shadow-lg p-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            Cadastro de Tipo de Item
+          </h1>
+          <p className="text-gray-600 mb-8">
+            Adicione um novo tipo de item ao catálogo
+          </p>
+
+          <div className="space-y-6">
+            <div>
+              <label
+                htmlFor="nome"
+                className="flex items-center text-sm font-medium text-gray-700 mb-2"
+              >
+                <Tag className="w-4 h-4 mr-2 text-teal-600" />
+                Nome do Tipo de Item
+              </label>
+              <input
+                type="text"
+                id="nome"
+                name="nome"
+                value={formData.nome}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent transition"
+                placeholder="Ex: Bebida, Entrada, Prato Principal, Sobremesa, etc."
+              />
+            </div>
+
+            <button
+              onClick={handleSubmit}
+              className="w-full bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 shadow-md hover:shadow-lg"
+            >
+              Cadastrar Tipo de Item
+            </button>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}

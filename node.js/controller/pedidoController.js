@@ -104,82 +104,72 @@ const getPedidosByCliente = async (req, res) => {
 
 // POST /pedido - Criar um novo pedido com transação
 const createPedido = async (req, res) => {
-  // NOTA: O campo 'endereco' do payload não está sendo usado.
-  // As colunas 'idPagamento', 'idEntregador', 'idEnderecoCliente' são NOT NULL na tabela
-  // e precisam de valores. Usando placeholders (1) por enquanto.
-  const { idCliente, idRestaurante, valorTotal, metodoPagamento, itens } = req.body;
-
-  // Validação básica
-  if (!idCliente || !idRestaurante || !valorTotal || !metodoPagamento || !itens || itens.length === 0) {
-    return res.status(400).json({
-      success: false,
-      message: "Dados incompletos. Todos os campos são obrigatórios."
-    });
-  }
-
-  let connection;
   try {
-    // 1. Obter uma conexão do pool
-    connection = await pool.getConnection();
-    
-    // 2. Iniciar a transação
-    await connection.beginTransaction();
+    const { 
+      idCliente, 
+      status, 
+      idPagamento, 
+      avaliacao, 
+      estrelas, 
+      precoPedido, 
+      idEntregador, 
+      idRestaurante, 
+      inicioPedido, 
+      fimPedido, 
+      idEnderecoCliente 
+    } = req.body;
 
-    // 3. Inserir o cabeçalho do pedido na tabela 'pedido'
-    // CORREÇÃO: Colunas ajustadas para camelCase (idCliente, idRestaurante, precoPedido)
-    // ADIÇÃO: Colunas NOT NULL adicionadas com valores placeholder.
-    const pedidoSql = `
-      INSERT INTO pedido (idCliente, idRestaurante, precoPedido, status, inicioPedido, idPagamento, idEntregador, idEnderecoCliente, fimPedido) 
-      VALUES (?, ?, ?, 'Pendente', NOW(), 1, 1, 1, NOW())
-    `;
-    // O ideal seria mapear 'metodoPagamento' para um 'idPagamento'
-    const [pedidoResult] = await connection.execute(pedidoSql, [idCliente, idRestaurante, valorTotal]);
-    const idPedido = pedidoResult.insertId;
+     const requiredFields = {
+      idCliente: "O parâmetro 'idCliente' é obrigatório.",
+      status: "O parâmetro 'status' é obrigatório.",
+      idPagamento: "O parâmetro 'idPagamento' é obrigatório.",
+      precoPedido: "O parâmetro 'precoPedido' é obrigatório.",
+      idRestaurante: "O parâmetro 'idRestaurante' é obrigatório.",
+      inicioPedido: "O parâmetro 'inicioPedido' é obrigatório.",
+      idEnderecoCliente: "O parâmetro 'idEnderecoCliente' é obrigatório."
+    };
 
-    // 4. Preparar os dados dos itens para inserção em lote
-    const pedidoItensValues = itens.map(item => [
-      idPedido,
-      item.idItem,
-      item.quantidade,
-      item.precoUnitario
-    ]);
+    // Validação automática
+    for (const field in requiredFields) {
+      if (!req.body[field]) {
+        return res.status(400).json({
+          success: false,
+          message: requiredFields[field]
+        });
+      }
+    }
 
-    // 5. Inserir os itens na tabela 'pedido_item'
-    // CORREÇÃO: Colunas ajustadas para camelCase (idPedido, idItem, precoUnitario)
-    const itensSql = `
-      INSERT INTO pedido_item (idPedido, idItem, quantidade, precoUnitario) 
-      VALUES ?
-    `;
-    await connection.query(itensSql, [pedidoItensValues]);
+    // Criar o pedido no Model
+    const novoPedidoId = await PedidoModel.create({
+      idCliente,
+      status,
+      idPagamento,
+      avaliacao,
+      estrelas,
+      precoPedido,
+      idEntregador,
+      idRestaurante,
+      inicioPedido,
+      fimPedido,
+      idEnderecoCliente
+    });
 
-    // 6. Se tudo deu certo, comitar a transação
-    await connection.commit();
-
-    // 7. Enviar a resposta de sucesso
     return res.status(201).json({
-      message: "Sucesso",
-      idPedido: idPedido
+      success: true,
+      data: { id: novoPedidoId },
+      message: "Pedido criado com sucesso!"
     });
 
   } catch (error) {
-    // 8. Se algo deu errado, reverter a transação
-    if (connection) {
-      await connection.rollback();
-    }
-    console.error('Erro ao criar pedido:', error);
+    console.error("Erro ao criar pedido:", error);
     return res.status(500).json({
       success: false,
-      message: "Erro ao processar o pedido.",
-      error: error.message
+      message: "Erro interno do servidor.",
+      error: error.message,
     });
-
-  } finally {
-    // 9. Liberar a conexão de volta para o pool
-    if (connection) {
-      connection.release();
-    }
   }
 };
+
 
 // PATCH /pedido/:idPedido/status - Atualizar status
 const patchPedidoStatus = async (req, res) => {
@@ -225,6 +215,39 @@ const patchPedidoStatus = async (req, res) => {
   }
 };
 
+const createPedidoItem = async (req, res) => {
+  try {
+    const { idPedido, idItem, quantidade, precoUnitario } = req.body;
+
+    // Validação básica
+    if (!idPedido || !idItem || !quantidade || !precoUnitario) {
+      return res.status(400).json({
+        success: false,
+        message: "Dados incompletos. Todos os campos são obrigatórios."
+      });
+    }
+    const novoItemId = await PedidoModel.createPedidoItem({
+      idPedido,
+      idItem,
+      quantidade,
+      precoUnitario
+    });
+
+    return res.status(201).json({
+      success: true,
+      data: { id: novoItemId },
+      message: "PedidoItem criado com sucesso!"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message
+    });
+  }
+};
+
+
 module.exports = {
   getPedidos,
   getPedidoById,
@@ -232,4 +255,5 @@ module.exports = {
   createPedido,
   patchPedidoStatus,
   getPedidosByCliente,
+  createPedidoItem,
 };

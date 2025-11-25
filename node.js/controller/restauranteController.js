@@ -9,13 +9,13 @@ const getRestaurantes = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: restaurantes,
-      message: "Lista de restaurantes"
+      message: "Lista de restaurantes",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -24,35 +24,35 @@ const getRestaurantes = async (req, res) => {
 const getRestauranteById = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     if (!id) {
       return res.status(400).json({
         success: false,
         data: null,
-        message: "ID do restaurante é obrigatório"
+        message: "ID do restaurante é obrigatório",
       });
     }
 
     const restaurante = await RestauranteModel.findById(id);
-    
+
     if (!restaurante) {
       return res.status(404).json({
         success: false,
         data: null,
-        message: "Restaurante não encontrado"
+        message: "Restaurante não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
       data: restaurante,
-      message: "Restaurante recuperado com sucesso"
+      message: "Restaurante recuperado com sucesso",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -61,28 +61,28 @@ const getRestauranteById = async (req, res) => {
 const getRestaurantesByPreco = async (req, res) => {
   try {
     const { preco } = req.params;
-    
+
     // Validar preço
-    const precoValido = ['$', '$$', '$$$'];
+    const precoValido = ["$", "$$", "$$$"];
     if (!precoValido.includes(preco)) {
       return res.status(400).json({
         success: false,
-        message: `Preço inválido. Use um dos: ${precoValido.join(', ')}`
+        message: `Preço inválido. Use um dos: ${precoValido.join(", ")}`,
       });
     }
 
     const restaurantes = await RestauranteModel.findByPreco(preco);
-    
+
     return res.status(200).json({
       success: true,
       data: restaurantes,
-      message: `Restaurantes com preço ${preco}`
+      message: `Restaurantes com preço ${preco}`,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -96,17 +96,17 @@ const createRestaurante = async (req, res) => {
     if (!nome || !descricao) {
       return res.status(400).json({
         success: false,
-        message: "Nome e descrição são obrigatórios"
+        message: "Nome e descrição são obrigatórios",
       });
     }
 
     // Validar preço
     if (preco) {
-      const precoValido = ['$', '$$', '$$$'];
+      const precoValido = ["$", "$$", "$$$"];
       if (!precoValido.includes(preco)) {
         return res.status(400).json({
           success: false,
-          message: `Preço inválido. Use um dos: ${precoValido.join(', ')}`
+          message: `Preço inválido. Use um dos: ${precoValido.join(", ")}`,
         });
       }
     }
@@ -116,27 +116,27 @@ const createRestaurante = async (req, res) => {
     if (restauranteExistente) {
       return res.status(409).json({
         success: false,
-        message: "Restaurante com este nome já existe"
+        message: "Restaurante com este nome já existe",
       });
     }
 
-    const novoRestauranteId = await RestauranteModel.create({ 
-      nome, 
-      descricao, 
-      telefone, 
-      preco 
+    const novoRestauranteId = await RestauranteModel.create({
+      nome,
+      descricao,
+      telefone,
+      preco,
     });
-    
+
     return res.status(201).json({
       success: true,
       data: { id: novoRestauranteId },
-      message: "Restaurante criado com sucesso!"
+      message: "Restaurante criado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -150,7 +150,7 @@ const updateRestaurante = async (req, res) => {
     if (!id) {
       return res.status(400).json({
         success: false,
-        message: "ID do restaurante é obrigatório"
+        message: "ID do restaurante é obrigatório",
       });
     }
 
@@ -159,7 +159,7 @@ const updateRestaurante = async (req, res) => {
     if (!restaurante) {
       return res.status(404).json({
         success: false,
-        message: "Restaurante não encontrado"
+        message: "Restaurante não encontrado",
       });
     }
 
@@ -169,18 +169,18 @@ const updateRestaurante = async (req, res) => {
       if (nomeExistente) {
         return res.status(409).json({
           success: false,
-          message: "Restaurante com este nome já existe"
+          message: "Restaurante com este nome já existe",
         });
       }
     }
 
     // Validar preço se for fornecido
     if (preco) {
-      const precoValido = ['$', '$$', '$$$'];
+      const precoValido = ["$", "$$", "$$$"];
       if (!precoValido.includes(preco)) {
         return res.status(400).json({
           success: false,
-          message: `Preço inválido. Use um dos: ${precoValido.join(', ')}`
+          message: `Preço inválido. Use um dos: ${precoValido.join(", ")}`,
         });
       }
     }
@@ -189,26 +189,26 @@ const updateRestaurante = async (req, res) => {
       nome: nome || restaurante.nome,
       descricao: descricao || restaurante.descricao,
       telefone: telefone || restaurante.telefone,
-      preco: preco || restaurante.preco
+      preco: preco || restaurante.preco,
     });
 
     if (affectedRows === 0) {
       return res.status(404).json({
         success: false,
-        message: "Restaurante não encontrado"
+        message: "Restaurante não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
       data: { id },
-      message: "Restaurante atualizado com sucesso!"
+      message: "Restaurante atualizado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -221,7 +221,7 @@ const deleteRestaurante = async (req, res) => {
     if (!id) {
       return res.status(400).json({
         success: false,
-        message: "ID do restaurante é obrigatório"
+        message: "ID do restaurante é obrigatório",
       });
     }
 
@@ -230,19 +230,19 @@ const deleteRestaurante = async (req, res) => {
     if (affectedRows === 0) {
       return res.status(404).json({
         success: false,
-        message: "Restaurante não encontrado"
+        message: "Restaurante não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Restaurante deletado com sucesso!"
+      message: "Restaurante deletado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -270,24 +270,86 @@ const createTipoCozinha = async (req, res) => {
     if (!nome) {
       return res.status(400).json({
         success: false,
-        message: "Nome é obrigatórios"
+        message: "Nome é obrigatórios",
       });
     }
 
-    const novoTipoCozinha = await RestauranteModel.createCozinha({ 
-      nome
+    const novoTipoCozinha = await RestauranteModel.createCozinha({
+      nome,
     });
-    
+
     return res.status(201).json({
       success: true,
       data: { id: novoTipoCozinha },
-      message: "Novo tipo de cozinha criado com sucesso!"
+      message: "Novo tipo de cozinha criado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
+    });
+  }
+};
+
+const createPagamento = async (req, res) => {
+  try {
+    const { idRestaurante, idTipoCozinha } = req.body;
+
+    // Validação básica
+    if (!idRestaurante || !idTipoCozinha) {
+      return res.status(400).json({
+        success: false,
+        message: "Dados incompletos. Todos os campos são obrigatórios.",
+      });
+    }
+    const novoItemId = await RestauranteModel.createRestauranteTipoCozinha({
+      idRestaurante,
+      idTipoCozinha,
+    });
+
+    return res.status(201).json({
+      success: true,
+      data: { id: novoItemId },
+      message: "PedidoItem criado com sucesso!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message,
+    });
+  }
+};
+
+// POST /restaurante/tipoCozinha - Criar novo restaurante
+const createRestauranteTipoCozinha = async (req, res) => {
+  try {
+    const { idRestaurante, idTipoCozinha } = req.body;
+
+    // Validações básicas
+    if (!idRestaurante || !idTipoCozinha) {
+      return res.status(400).json({
+        success: false,
+        message: "IdRestaurante e IdTipoCozinha são obrigatórios",
+      });
+    }
+
+    const novoTipoCozinha = await RestauranteModel.createRestauranteTipoCozinha({
+      idRestaurante,
+      idTipoCozinha,
+    });
+
+    return res.status(201).json({
+      success: true,
+      data: { id: novoTipoCozinha },
+      message: "Novo tipo de cozinha criado com sucesso!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message,
     });
   }
 };
@@ -300,5 +362,7 @@ module.exports = {
   updateRestaurante,
   deleteRestaurante,
   getPedidosByRestaurante,
-  createTipoCozinha
+  createTipoCozinha,
+  createPagamento,
+  createRestauranteTipoCozinha,
 };

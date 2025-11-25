@@ -9,13 +9,13 @@ const getItens = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: itens,
-      message: "Lista de itens"
+      message: "Lista de itens",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -24,35 +24,35 @@ const getItens = async (req, res) => {
 const getItemById = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     if (!id) {
       return res.status(400).json({
         success: false,
         data: null,
-        message: "ID do item é obrigatório"
+        message: "ID do item é obrigatório",
       });
     }
 
     const item = await ItemModel.findById(id);
-    
+
     if (!item) {
       return res.status(404).json({
         success: false,
         data: null,
-        message: "Item não encontrado"
+        message: "Item não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
       data: item,
-      message: "Item recuperado com sucesso"
+      message: "Item recuperado com sucesso",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -61,26 +61,26 @@ const getItemById = async (req, res) => {
 const getItensByRestaurante = async (req, res) => {
   try {
     const { idRestaurante } = req.params;
-    
+
     if (!idRestaurante) {
       return res.status(400).json({
         success: false,
-        message: "ID do restaurante é obrigatório"
+        message: "ID do restaurante é obrigatório",
       });
     }
 
     const itens = await ItemModel.findByRestaurante(idRestaurante);
-    
+
     return res.status(200).json({
       success: true,
       data: itens,
-      message: `Itens do restaurante ${idRestaurante}`
+      message: `Itens do restaurante ${idRestaurante}`,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -89,26 +89,26 @@ const getItensByRestaurante = async (req, res) => {
 const getItensByTipo = async (req, res) => {
   try {
     const { idTipo } = req.params;
-    
+
     if (!idTipo) {
       return res.status(400).json({
         success: false,
-        message: "ID do tipo é obrigatório"
+        message: "ID do tipo é obrigatório",
       });
     }
 
     const itens = await ItemModel.findByTipo(idTipo);
-    
+
     return res.status(200).json({
       success: true,
       data: itens,
-      message: `Itens do tipo ${idTipo}`
+      message: `Itens do tipo ${idTipo}`,
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -122,28 +122,29 @@ const createItem = async (req, res) => {
     if (!idRestaurante || !nome || !descricao || !idTipo || !preco) {
       return res.status(400).json({
         success: false,
-        message: "idRestaurante, nome, descrição, idTipo e preço são obrigatórios"
+        message:
+          "idRestaurante, nome, descrição, idTipo e preço são obrigatórios",
       });
     }
 
-    const novoItemId = await ItemModel.create({ 
+    const novoItemId = await ItemModel.create({
       idRestaurante,
-      nome, 
-      descricao, 
+      nome,
+      descricao,
       idTipo,
-      preco
+      preco,
     });
-    
+
     return res.status(201).json({
       success: true,
       data: { id: novoItemId },
-      message: "Item criado com sucesso!"
+      message: "Item criado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -157,7 +158,7 @@ const updateItem = async (req, res) => {
     if (!id) {
       return res.status(400).json({
         success: false,
-        message: "ID do item é obrigatório"
+        message: "ID do item é obrigatório",
       });
     }
 
@@ -166,7 +167,7 @@ const updateItem = async (req, res) => {
     if (!item) {
       return res.status(404).json({
         success: false,
-        message: "Item não encontrado"
+        message: "Item não encontrado",
       });
     }
 
@@ -174,26 +175,26 @@ const updateItem = async (req, res) => {
       nome: nome || item.nome,
       descricao: descricao || item.descricao,
       idTipo: idTipo || item.idTipo,
-      preco: preco || item.preco
+      preco: preco || item.preco,
     });
 
     if (affectedRows === 0) {
       return res.status(404).json({
         success: false,
-        message: "Item não encontrado"
+        message: "Item não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
       data: { id },
-      message: "Item atualizado com sucesso!"
+      message: "Item atualizado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -206,7 +207,7 @@ const deleteItem = async (req, res) => {
     if (!id) {
       return res.status(400).json({
         success: false,
-        message: "ID do item é obrigatório"
+        message: "ID do item é obrigatório",
       });
     }
 
@@ -215,19 +216,50 @@ const deleteItem = async (req, res) => {
     if (affectedRows === 0) {
       return res.status(404).json({
         success: false,
-        message: "Item não encontrado"
+        message: "Item não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Item deletado com sucesso!"
+      message: "Item deletado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
+    });
+  }
+};
+
+// POST /item - Criar novo tipoItem
+const createTipoItem = async (req, res) => {
+  try {
+    const { nome } = req.body;
+
+    // Validações básicas
+    if (!nome) {
+      return res.status(400).json({
+        success: false,
+        message: "Nome é obrigatórios",
+      });
+    }
+
+    const novoItemId = await ItemModel.createTipoItem({
+      nome,
+    });
+
+    return res.status(201).json({
+      success: true,
+      data: { id: novoItemId },
+      message: "Item criado com sucesso!",
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message,
     });
   }
 };
@@ -239,5 +271,6 @@ module.exports = {
   getItensByTipo,
   createItem,
   updateItem,
-  deleteItem
+  deleteItem,
+  createTipoItem
 };

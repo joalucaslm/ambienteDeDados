@@ -21,5 +21,9 @@ router.delete("/:id", restauranteController.deleteRestaurante);
 
 router.post("/tipoCozinha", restauranteController.createTipoCozinha);
 
+router.post("/restauranteTipoCozinha", restauranteController.createRestauranteTipoCozinha);
+router.post("/pagamento", restauranteController.createPagamento);
+// router.post("/tipoCozinha", restauranteController.createPedidoItem);
+
 
 module.exports = router;

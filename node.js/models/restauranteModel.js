@@ -159,6 +159,36 @@ class RestauranteModel {
       throw new Error(`Erro ao criar restaurante: ${error.message}`);
     }
   }
+
+  // Criar novo restaurante pagamento
+  static async createPagamento(restaurantePagamentoData) {
+    const { idRestaurante, idPagamento } = restaurantePagamentoData;
+    const query =
+      "INSERT INTO restaurante_pagamento (idRestaurante, idPagamento) VALUES (?, ?)";
+
+    try {
+      const [result] = await pool.query(query, [
+        idRestaurante,
+        idPagamento,
+      ]);
+      return result.insertId;
+    } catch (error) {
+      throw new Error(`Erro ao criar restaurante: ${error.message}`);
+    }
+  }
+
+   // Criar novo tipo cozinha
+  static async createRestauranteTipoCozinha(restauranteTipoCozinhaData) {
+    const { idRestaurante, idTipoCozinha } = restauranteTipoCozinhaData;
+    const query = "INSERT INTO restaurante_tipo_cozinha (idRestaurante, idTipoCozinha) VALUES (?, ?)";
+
+    try {
+      const [result] = await pool.query(query, [idRestaurante, idTipoCozinha]);
+      return result.insertId;
+    } catch (error) {
+      throw new Error(`Erro ao criar restaurante: ${error.message}`);
+    }
+  }
 }
 
 module.exports = RestauranteModel;

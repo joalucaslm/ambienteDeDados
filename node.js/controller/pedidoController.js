@@ -102,8 +102,6 @@ const getPedidosByCliente = async (req, res) => {
   }
 };
 
-const { pool } = require("../config/db"); // Importar o pool de conexões
-
 // POST /pedido - Criar um novo pedido com transação
 const createPedido = async (req, res) => {
   // NOTA: O campo 'endereco' do payload não está sendo usado.

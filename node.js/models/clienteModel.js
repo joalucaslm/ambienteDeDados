@@ -73,6 +73,16 @@ class ClienteModel {
     }
   }
 
+  static async updatePassword(id, newPassword) {
+    const query = "UPDATE cliente SET senha = ? WHERE id = ?";
+    try {
+      const [result] = await pool.query(query, [newPassword, id]);
+      return result.affectedRows;
+    } catch (error) {
+      throw new Error(`Erro ao atualizar senha: ${error.message}`);
+    }
+  }
+
   // Comparar senha
   static async comparePassword(candidatePassword, hashedPassword) {
     return await bcrypt.compare(candidatePassword, hashedPassword);

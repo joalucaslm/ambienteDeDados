@@ -1,5 +1,5 @@
 // controller/clienteController.js
-
+const bcrypt = require('bcryptjs');
 const ClienteModel = require("../models/clienteModel");
 
 // GET /cliente - Buscar todos os clientes
@@ -60,18 +60,18 @@ const getClienteById = async (req, res) => {
 // POST /cliente - Criar novo cliente
 const createCliente = async (req, res) => {
   try {
-    const { nome, email, telefone } = req.body;
+    const { nome, email, telefone, senha } = req.body;
 
     // Validações básicas
-    if (!nome || !email) {
+    if (!nome || !email || !senha) {
       return res.status(400).json({
         success: false,
-        message: "Nome e email são obrigatórios"
+        message: "Nome, email e senha são obrigatórios"
       });
     }
 
     // Verificar se email já existe
-    const clienteExistente = await ClienteModel.findByEmail(email);
+    const clienteExistente = await ClienteModel.findByEmail(email.toLowerCase());
     if (clienteExistente) {
       return res.status(409).json({
         success: false,
@@ -79,7 +79,11 @@ const createCliente = async (req, res) => {
       });
     }
 
-    const novoClienteId = await ClienteModel.create({ nome, email, telefone });
+    // Criptografar a senha
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(senha, salt);
+
+    const novoClienteId = await ClienteModel.create({ nome, email: email.toLowerCase(), telefone, senha: hashedPassword });
     
     return res.status(201).json({
       success: true,
@@ -118,8 +122,8 @@ const updateCliente = async (req, res) => {
     }
 
     // Se está mudando o email, verificar se novo email já existe
-    if (email && email !== cliente.email) {
-      const emailExistente = await ClienteModel.findByEmail(email);
+    if (email && email.toLowerCase() !== cliente.email.toLowerCase()) {
+      const emailExistente = await ClienteModel.findByEmail(email.toLowerCase());
       if (emailExistente) {
         return res.status(409).json({
           success: false,
@@ -130,7 +134,7 @@ const updateCliente = async (req, res) => {
 
     const affectedRows = await ClienteModel.update(id, {
       nome: nome || cliente.nome,
-      email: email || cliente.email,
+      email: email ? email.toLowerCase() : cliente.email,
       telefone: telefone || cliente.telefone
     });
 
@@ -189,10 +193,66 @@ const deleteCliente = async (req, res) => {
   }
 };
 
+const updatePassword = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { oldPassword, newPassword } = req.body;
+
+    if (!id || !oldPassword || !newPassword) {
+      return res.status(400).json({
+        success: false,
+        message: "ID do cliente, senha antiga e nova senha são obrigatórios"
+      });
+    }
+
+    const cliente = await ClienteModel.findById(id);
+
+    if (!cliente) {
+      return res.status(404).json({
+        success: false,
+        message: "Cliente não encontrado"
+      });
+    }
+
+    const isMatch = await ClienteModel.comparePassword(oldPassword, cliente.senha);
+
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Senha antiga incorreta"
+      });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    const affectedRows = await ClienteModel.updatePassword(id, hashedPassword);
+
+    if (affectedRows === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Cliente não encontrado"
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "Senha atualizada com sucesso!"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getClientes,
   getClienteById,
   createCliente,
   updateCliente,
-  deleteCliente
+  deleteCliente,
+  updatePassword
 };

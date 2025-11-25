@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const API_BASE_URL = 'http://localhost:8080';
     // Seletores
     const form = document.querySelector('form');
     const nomeInput = document.querySelector('input[placeholder*="nome"]');
@@ -50,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                const response = await fetch('http://localhost:3000/clientes', {
+                const response = await fetch(`${API_BASE_URL}/cliente`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
@@ -58,10 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(payload),
                 });
 
+                const responseData = await response.json();
+                console.log('Resposta da API:', responseData);
+
                 if (response.status === 201) {
                     alert('Conta criada com sucesso!');
                     // Redireciona para a página de login
-                    window.location.href = 'login.html'; 
+                    window.location.href = 'LoginDoCliente.html'; 
                 } else {
                     const errorData = await response.json();
                     alert(`Erro ao criar conta: ${errorData.message || 'Tente novamente.'}`);

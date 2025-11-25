@@ -20,4 +20,7 @@ router.put("/:id", clienteController.updateCliente);
 // DELETE /cliente/:id - Deletar cliente
 router.delete("/:id", clienteController.deleteCliente);
 
+// PUT /cliente/:id/password - Atualizar senha do cliente
+router.put("/:id/password", clienteController.updatePassword);
+
 module.exports = router;

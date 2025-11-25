@@ -35,7 +35,7 @@ const register = async (req, res) => {
     }
 
     // Verificar se email já existe
-    const clienteExistente = await ClienteModel.findByEmail(email);
+    const clienteExistente = await ClienteModel.findByEmail(email.toLowerCase());
     if (clienteExistente) {
       return res.status(409).json({
         success: false,
@@ -49,15 +49,18 @@ const register = async (req, res) => {
     // Criar novo cliente
     const novoClienteId = await ClienteModel.create({
       nome,
-      email,
+      email: email.toLowerCase(),
       telefone,
       senha: hashedPassword // Armazenar senha hash
     });
 
     // Gerar JWT
+    if (!process.env.SECRET_KEY) {
+      throw new Error("SECRET_KEY não definida no ambiente");
+    }
     const token = jwt.sign(
-      { id: novoClienteId, email: email },
-      process.env.SECRET_KEY || "sua_chave_secreta_aqui",
+      { id: novoClienteId, email: email.toLowerCase() },
+      process.env.SECRET_KEY,
       { expiresIn: "24h" }
     );
 
@@ -114,9 +117,12 @@ const login = async (req, res) => {
     }
 
     // Gerar JWT
+    if (!process.env.SECRET_KEY) {
+      throw new Error("SECRET_KEY não definida no ambiente");
+    }
     const token = jwt.sign(
       { id: cliente.id, email: cliente.email },
-      process.env.SECRET_KEY || "sua_chave_secreta_aqui",
+      process.env.SECRET_KEY,
       { expiresIn: "24h" }
     );
 

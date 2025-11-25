@@ -23,15 +23,11 @@ const PORT = Number(process.env.PORT) || 8080;
 // CORS configuration
 const corsOptions = {
   origin: (origin, callback) => {
+    // Whitelist of allowed origins from environment variable
+    const whitelist = (process.env.CORS_WHITELIST || 'http://localhost:5174,http://127.0.0.1:5500,http://127.0.0.1:3000,http://localhost:3000').split(',');
+
     // Log the incoming origin to the console for debugging
     console.log("CORS check: Request from origin =>", origin);
-
-    // Whitelist of allowed origins for development
-    const whitelist = [
-      process.env.FRONTEND_ORIGIN || 'http://localhost:5174', 
-      'http://127.0.0.1:5500', // For VSCode Live Server
-      'http://127.0.0.1:3000'  // Adding the origin reported by the browser
-    ];
     
     // Allow requests with no origin (like mobile apps, curl, or local files)
     // or requests from the whitelist.

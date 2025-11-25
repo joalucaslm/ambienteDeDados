@@ -11,11 +11,11 @@ export default function Cliente() {
     nome: '',
     email: '',
     telefone: '',
-    senha: ''
   });
 
   const [enderecoData, setEnderecoData] = useState({
     idCliente: '',
+    idRestaurante: '',
     logradouro: '',
     numero: '',
     complemento: '',
@@ -52,10 +52,8 @@ export default function Cliente() {
         console.log('Cliente cadastrado:', data);
         alert('Cliente cadastrado com sucesso!');
         setShowClienteModal(false);
-        setClienteData({ nome: '', email: '', telefone: '', senha: ''});
+        setClienteData({ nome: '', email: '', telefone: ''});
       } else {
-        console.log("Dados que chegaram")
-        console.log(clienteData)
         alert('Erro ao cadastrar cliente. Tente novamente.');
       }
     } catch (error) {
@@ -66,7 +64,7 @@ export default function Cliente() {
 
   const handleEnderecoSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:8080/endereço/', {
+      const response = await fetch('http://localhost:8080/endereco/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -81,6 +79,7 @@ export default function Cliente() {
         setShowEnderecoModal(false);
         setEnderecoData({
           idCliente: '',
+          idRestaurante: '',
           logradouro: '',
           numero: '',
           complemento: '',
@@ -92,6 +91,8 @@ export default function Cliente() {
           tipo: 'Residencial'
         });
       } else {
+        console.log("Dados que chegaram")
+        console.log(enderecoData)
         alert('Erro ao cadastrar endereço. Tente novamente.');
       }
     } catch (error) {
@@ -195,22 +196,6 @@ export default function Cliente() {
                   />
                 </div>
 
-                 <div>
-                  <label htmlFor="senha" className="flex items-center text-sm font-medium text-gray-700 mb-2">
-                    <Lock className="w-4 h-4 mr-2 text-indigo-600" />
-                    Senha
-                  </label>
-                  <input
-                    type="password"
-                    id="senha"
-                    name="senha"
-                    value={clienteData.senha}
-                    onChange={handleClienteChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition"
-                    placeholder="(00) 00000-0000"
-                  />
-                </div>
-
                 <button
                   onClick={handleClienteSubmit}
                   className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg transition shadow-md hover:shadow-lg"
@@ -250,6 +235,22 @@ export default function Cliente() {
                     onChange={handleEnderecoChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
                     placeholder="ID do cliente"
+                  />
+                </div>
+
+                 <div>
+                  <label htmlFor="idRestaurante" className="flex items-center text-sm font-medium text-gray-700 mb-2">
+                    <User className="w-4 h-4 mr-2 text-green-600" />
+                    ID do Restaurante
+                  </label>
+                  <input
+                    type="text"
+                    id="idRestaurante"
+                    name="idRestaurante"
+                    value={enderecoData.idRestaurante}
+                    onChange={handleEnderecoChange}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent transition"
+                    placeholder="ID do restaurante"
                   />
                 </div>
 

@@ -19,4 +19,7 @@ router.put("/:id", restauranteController.updateRestaurante);
 
 router.delete("/:id", restauranteController.deleteRestaurante);
 
+router.post("/tipoCozinha", restauranteController.createTipoCozinha);
+
+
 module.exports = router;

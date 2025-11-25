@@ -261,6 +261,37 @@ const getPedidosByRestaurante = async (req, res) => {
   }
 };
 
+// POST /restaurante/tipoCozinha - Criar novo restaurante
+const createTipoCozinha = async (req, res) => {
+  try {
+    const { nome } = req.body;
+
+    // Validações básicas
+    if (!nome) {
+      return res.status(400).json({
+        success: false,
+        message: "Nome é obrigatórios"
+      });
+    }
+
+    const novoTipoCozinha = await RestauranteModel.createCozinha({ 
+      nome
+    });
+    
+    return res.status(201).json({
+      success: true,
+      data: { id: novoTipoCozinha },
+      message: "Novo tipo de cozinha criado com sucesso!"
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message
+    });
+  }
+};
+
 module.exports = {
   getRestaurantes,
   getRestauranteById,
@@ -269,4 +300,5 @@ module.exports = {
   updateRestaurante,
   deleteRestaurante,
   getPedidosByRestaurante,
+  createTipoCozinha
 };

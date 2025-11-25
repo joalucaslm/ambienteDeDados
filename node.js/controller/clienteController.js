@@ -1,5 +1,5 @@
 // controller/clienteController.js
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
 const ClienteModel = require("../models/clienteModel");
 
 // GET /cliente - Buscar todos os clientes
@@ -9,13 +9,13 @@ const getClientes = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: clientes,
-      message: "Lista de clientes"
+      message: "Lista de clientes",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -24,35 +24,35 @@ const getClientes = async (req, res) => {
 const getClienteById = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     if (!id) {
       return res.status(400).json({
         success: false,
         data: null,
-        message: "ID do cliente é obrigatório"
+        message: "ID do cliente é obrigatório",
       });
     }
 
     const cliente = await ClienteModel.findById(id);
-    
+
     if (!cliente) {
       return res.status(404).json({
         success: false,
         data: null,
-        message: "Cliente não encontrado"
+        message: "Cliente não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
       data: cliente,
-      message: "Cliente recuperado com sucesso"
+      message: "Cliente recuperado com sucesso",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -60,41 +60,47 @@ const getClienteById = async (req, res) => {
 // POST /cliente - Criar novo cliente
 const createCliente = async (req, res) => {
   try {
-    const { nome, email, telefone, senha } = req.body;
+    const { nome, email, telefone } = req.body;
 
     // Validações básicas
-    if (!nome || !email || !senha) {
+    if (!nome || !email || !telefone) {
       return res.status(400).json({
         success: false,
-        message: "Nome, email e senha são obrigatórios"
+        message: "Nome, telefone e email são obrigatórios",
       });
     }
 
     // Verificar se email já existe
-    const clienteExistente = await ClienteModel.findByEmail(email.toLowerCase());
+    const clienteExistente = await ClienteModel.findByEmail(
+      email.toLowerCase()
+    );
     if (clienteExistente) {
       return res.status(409).json({
         success: false,
-        message: "Email já cadastrado"
+        message: "Email já cadastrado",
       });
     }
 
     // Criptografar a senha
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(senha, salt);
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(senha, salt);
 
-    const novoClienteId = await ClienteModel.create({ nome, email: email.toLowerCase(), telefone, senha: hashedPassword });
-    
+    const novoClienteId = await ClienteModel.create({
+      nome,
+      email: email.toLowerCase(),
+      telefone,
+    });
+
     return res.status(201).json({
       success: true,
       data: { id: novoClienteId },
-      message: "Cliente criado com sucesso!"
+      message: "Cliente criado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -108,7 +114,7 @@ const updateCliente = async (req, res) => {
     if (!id) {
       return res.status(400).json({
         success: false,
-        message: "ID do cliente é obrigatório"
+        message: "ID do cliente é obrigatório",
       });
     }
 
@@ -117,17 +123,19 @@ const updateCliente = async (req, res) => {
     if (!cliente) {
       return res.status(404).json({
         success: false,
-        message: "Cliente não encontrado"
+        message: "Cliente não encontrado",
       });
     }
 
     // Se está mudando o email, verificar se novo email já existe
     if (email && email.toLowerCase() !== cliente.email.toLowerCase()) {
-      const emailExistente = await ClienteModel.findByEmail(email.toLowerCase());
+      const emailExistente = await ClienteModel.findByEmail(
+        email.toLowerCase()
+      );
       if (emailExistente) {
         return res.status(409).json({
           success: false,
-          message: "Email já cadastrado"
+          message: "Email já cadastrado",
         });
       }
     }
@@ -135,26 +143,26 @@ const updateCliente = async (req, res) => {
     const affectedRows = await ClienteModel.update(id, {
       nome: nome || cliente.nome,
       email: email ? email.toLowerCase() : cliente.email,
-      telefone: telefone || cliente.telefone
+      telefone: telefone || cliente.telefone,
     });
 
     if (affectedRows === 0) {
       return res.status(404).json({
         success: false,
-        message: "Cliente não encontrado"
+        message: "Cliente não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
       data: { id },
-      message: "Cliente atualizado com sucesso!"
+      message: "Cliente atualizado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -167,7 +175,7 @@ const deleteCliente = async (req, res) => {
     if (!id) {
       return res.status(400).json({
         success: false,
-        message: "ID do cliente é obrigatório"
+        message: "ID do cliente é obrigatório",
       });
     }
 
@@ -176,19 +184,19 @@ const deleteCliente = async (req, res) => {
     if (affectedRows === 0) {
       return res.status(404).json({
         success: false,
-        message: "Cliente não encontrado"
+        message: "Cliente não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Cliente deletado com sucesso!"
+      message: "Cliente deletado com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -201,7 +209,7 @@ const updatePassword = async (req, res) => {
     if (!id || !oldPassword || !newPassword) {
       return res.status(400).json({
         success: false,
-        message: "ID do cliente, senha antiga e nova senha são obrigatórios"
+        message: "ID do cliente, senha antiga e nova senha são obrigatórios",
       });
     }
 
@@ -210,16 +218,19 @@ const updatePassword = async (req, res) => {
     if (!cliente) {
       return res.status(404).json({
         success: false,
-        message: "Cliente não encontrado"
+        message: "Cliente não encontrado",
       });
     }
 
-    const isMatch = await ClienteModel.comparePassword(oldPassword, cliente.senha);
+    const isMatch = await ClienteModel.comparePassword(
+      oldPassword,
+      cliente.senha
+    );
 
     if (!isMatch) {
       return res.status(401).json({
         success: false,
-        message: "Senha antiga incorreta"
+        message: "Senha antiga incorreta",
       });
     }
 
@@ -231,19 +242,19 @@ const updatePassword = async (req, res) => {
     if (affectedRows === 0) {
       return res.status(404).json({
         success: false,
-        message: "Cliente não encontrado"
+        message: "Cliente não encontrado",
       });
     }
 
     return res.status(200).json({
       success: true,
-      message: "Senha atualizada com sucesso!"
+      message: "Senha atualizada com sucesso!",
     });
   } catch (error) {
     return res.status(500).json({
       success: false,
       data: null,
-      message: error.message
+      message: error.message,
     });
   }
 };
@@ -254,5 +265,5 @@ module.exports = {
   createCliente,
   updateCliente,
   deleteCliente,
-  updatePassword
+  updatePassword,
 };

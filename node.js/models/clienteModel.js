@@ -37,11 +37,11 @@ class ClienteModel {
 
   // Criar novo cliente
   static async create(clienteData) {
-    const { nome, email, telefone, senha } = clienteData; // Adicionar senha
-    const query = "INSERT INTO cliente (nome, email, telefone, senha) VALUES (?, ?, ?, ?)"; // Adicionar senha
+    const { nome, email, telefone } = clienteData; // Adicionar senha
+    const query = "INSERT INTO cliente (nome, email, telefone) VALUES (?, ?, ?)"; // Adicionar senha
     
     try {
-      const [result] = await pool.query(query, [nome, email, telefone, senha]); // Adicionar senha
+      const [result] = await pool.query(query, [nome, email, telefone]); // Adicionar senha
       return result.insertId;
     } catch (error) {
       throw new Error(`Erro ao criar cliente: ${error.message}`);

@@ -29,6 +29,8 @@ public class UserService {
                 Instant.now(),
                 null);
 
+        entity.setUserId(null);
+
         var userSaved = userRepository.save(entity);
 
         return userSaved.getUserId();

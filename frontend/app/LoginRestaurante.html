@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Acesso do Restaurante</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+            'FILL' 0,
+            'wght' 400,
+            'GRAD' 0,
+            'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#f45925",
+              "background-light": "#f8f6f5",
+              "background-dark": "#221410",
+            },
+            fontFamily: {
+              "display": ["Be Vietnam Pro", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0.5rem", "lg": "1rem", "xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+</head>
+<body class="font-display">
+<div class="relative flex min-h-screen w-full flex-col items-center justify-center bg-background-light p-4 dark:bg-background-dark">
+<div class="w-full max-w-md">
+<header class="mb-8 text-center">
+<div class="inline-flex h-16 w-16 items-center justify-center rounded-2xl bg-primary text-white">
+<span class="material-symbols-outlined !text-4xl">storefront</span>
+</div>
+</header>
+<main class="w-full space-y-6">
+<div class="text-center">
+<h1 class="text-3xl font-bold leading-tight tracking-tight text-[#181311] dark:text-white">Bem-vindo, Parceiro!</h1>
+<p class="mt-2 text-base font-normal leading-normal text-gray-600 dark:text-gray-300">Faça login para gerenciar seus pedidos e cardápio.</p>
+</div>
+<form class="space-y-4">
+<div class="flex flex-col">
+<label class="pb-2 text-base font-medium text-[#181311] dark:text-gray-200" for="email">E-mail ou CNPJ</label>
+<input class="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl border border-[#e6dedb] bg-white p-[15px] text-base font-normal leading-normal text-[#181311] placeholder:text-[#8a6b60] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/40 dark:border-gray-600 dark:bg-background-dark dark:text-white dark:placeholder-gray-400" id="email" placeholder="Digite seu e-mail ou CNPJ" type="text" value=""/>
+</div>
+<div class="flex flex-col">
+<label class="pb-2 text-base font-medium text-[#181311] dark:text-gray-200" for="password">Senha</label>
+<div class="relative flex w-full items-stretch">
+<input class="form-input h-14 w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl border border-[#e6dedb] bg-white p-[15px] text-base font-normal leading-normal text-[#181311] placeholder:text-[#8a6b60] focus:border-primary focus:outline-0 focus:ring-2 focus:ring-primary/40 dark:border-gray-600 dark:bg-background-dark dark:text-white dark:placeholder-gray-400" id="password" placeholder="Digite sua senha" type="password" value=""/>
+<button class="absolute inset-y-0 right-0 flex items-center pr-4 text-[#8a6b60] dark:text-gray-400" type="button">
+<span class="material-symbols-outlined">visibility</span>
+</button>
+</div>
+</div>
+<button class="flex h-14 w-full cursor-pointer items-center justify-center overflow-hidden rounded-xl bg-primary px-5 text-base font-bold leading-normal tracking-[0.015em] text-white transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-offset-2 dark:focus:ring-offset-background-dark">
+<span class="truncate">Entrar</span>
+</button>
+</form>
+<div class="text-center">
+<a class="text-sm font-medium text-primary hover:underline" href="#">Ainda não é nosso parceiro? Cadastre seu restaurante</a>
+</div>
+</main>
+<footer class="mt-12 text-center">
+<p class="text-xs text-gray-500 dark:text-gray-400">
+<a class="hover:underline" href="#">Termos de Serviço</a> · <a class="hover:underline" href="#">Política de Privacidade</a>
+</p>
+</footer>
+</div>
+</div>
+<script src="login-restaurante.js"></script>
+</body></html>

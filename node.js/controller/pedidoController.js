@@ -1,3 +1,4 @@
+const { pool } = require("../config/db");
 const PedidoModel = require("../models/pedidoModel");
 
 // GET /pedido - Buscar todos os pedidos
@@ -77,34 +78,113 @@ const getPedidosByUsuario = async (req, res) => {
   }
 };
 
-// POST /pedido - Criar um novo pedido
-const createPedido = async (req, res) => {
+const getPedidosByCliente = async (req, res) => {
   try {
-    const pedidoData = req.body;
-    if (!pedidoData.idCliente || !pedidoData.itens || pedidoData.itens.length === 0) {
+    const { idCliente } = req.query;
+
+    if (!idCliente) {
       return res.status(400).json({
         success: false,
-        message: "Dados incompletos. 'idCliente' e 'itens' são obrigatórios."
+        message: "O parâmetro 'idCliente' é obrigatório.",
       });
     }
 
-    const novoPedidoId = await PedidoModel.create(pedidoData);
-    return res.status(201).json({
-      success: true,
-      data: { id: novoPedidoId },
-      message: "Pedido criado com sucesso!"
-    });
+    const pedidos = await PedidoModel.findByClienteId(idCliente);
+
+    return res.status(200).json(pedidos);
   } catch (error) {
+    console.error("Erro ao buscar pedidos do cliente:", error);
     return res.status(500).json({
       success: false,
-      data: null,
-      message: error.message
+      message: "Erro interno do servidor.",
+      error: error.message,
     });
   }
 };
 
-// PUT /pedido/:idPedido - Atualizar status
-const updatePedidoStatus = async (req, res) => {
+const { pool } = require("../config/db"); // Importar o pool de conexões
+
+// POST /pedido - Criar um novo pedido com transação
+const createPedido = async (req, res) => {
+  // NOTA: O campo 'endereco' do payload não está sendo usado.
+  // As colunas 'idPagamento', 'idEntregador', 'idEnderecoCliente' são NOT NULL na tabela
+  // e precisam de valores. Usando placeholders (1) por enquanto.
+  const { idCliente, idRestaurante, valorTotal, metodoPagamento, itens } = req.body;
+
+  // Validação básica
+  if (!idCliente || !idRestaurante || !valorTotal || !metodoPagamento || !itens || itens.length === 0) {
+    return res.status(400).json({
+      success: false,
+      message: "Dados incompletos. Todos os campos são obrigatórios."
+    });
+  }
+
+  let connection;
+  try {
+    // 1. Obter uma conexão do pool
+    connection = await pool.getConnection();
+    
+    // 2. Iniciar a transação
+    await connection.beginTransaction();
+
+    // 3. Inserir o cabeçalho do pedido na tabela 'pedido'
+    // CORREÇÃO: Colunas ajustadas para camelCase (idCliente, idRestaurante, precoPedido)
+    // ADIÇÃO: Colunas NOT NULL adicionadas com valores placeholder.
+    const pedidoSql = `
+      INSERT INTO pedido (idCliente, idRestaurante, precoPedido, status, inicioPedido, idPagamento, idEntregador, idEnderecoCliente, fimPedido) 
+      VALUES (?, ?, ?, 'Pendente', NOW(), 1, 1, 1, NOW())
+    `;
+    // O ideal seria mapear 'metodoPagamento' para um 'idPagamento'
+    const [pedidoResult] = await connection.execute(pedidoSql, [idCliente, idRestaurante, valorTotal]);
+    const idPedido = pedidoResult.insertId;
+
+    // 4. Preparar os dados dos itens para inserção em lote
+    const pedidoItensValues = itens.map(item => [
+      idPedido,
+      item.idItem,
+      item.quantidade,
+      item.precoUnitario
+    ]);
+
+    // 5. Inserir os itens na tabela 'pedido_item'
+    // CORREÇÃO: Colunas ajustadas para camelCase (idPedido, idItem, precoUnitario)
+    const itensSql = `
+      INSERT INTO pedido_item (idPedido, idItem, quantidade, precoUnitario) 
+      VALUES ?
+    `;
+    await connection.query(itensSql, [pedidoItensValues]);
+
+    // 6. Se tudo deu certo, comitar a transação
+    await connection.commit();
+
+    // 7. Enviar a resposta de sucesso
+    return res.status(201).json({
+      message: "Sucesso",
+      idPedido: idPedido
+    });
+
+  } catch (error) {
+    // 8. Se algo deu errado, reverter a transação
+    if (connection) {
+      await connection.rollback();
+    }
+    console.error('Erro ao criar pedido:', error);
+    return res.status(500).json({
+      success: false,
+      message: "Erro ao processar o pedido.",
+      error: error.message
+    });
+
+  } finally {
+    // 9. Liberar a conexão de volta para o pool
+    if (connection) {
+      connection.release();
+    }
+  }
+};
+
+// PATCH /pedido/:idPedido/status - Atualizar status
+const patchPedidoStatus = async (req, res) => {
   try {
     const { idPedido } = req.params;
     const { status } = req.body; 
@@ -152,5 +232,6 @@ module.exports = {
   getPedidoById,
   getPedidosByUsuario,
   createPedido,
-  updatePedidoStatus
+  patchPedidoStatus,
+  getPedidosByCliente,
 };

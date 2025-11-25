@@ -1,4 +1,5 @@
 const { pool } = require("../config/db");
+const bcrypt = require("bcryptjs"); // Importar bcryptjs
 
 class ClienteModel {
   // Buscar todos os clientes
@@ -36,11 +37,11 @@ class ClienteModel {
 
   // Criar novo cliente
   static async create(clienteData) {
-    const { nome, email, telefone } = clienteData;
-    const query = "INSERT INTO cliente (nome, email, telefone) VALUES (?, ?, ?)";
+    const { nome, email, telefone, senha } = clienteData; // Adicionar senha
+    const query = "INSERT INTO cliente (nome, email, telefone, senha) VALUES (?, ?, ?, ?)"; // Adicionar senha
     
     try {
-      const [result] = await pool.query(query, [nome, email, telefone]);
+      const [result] = await pool.query(query, [nome, email, telefone, senha]); // Adicionar senha
       return result.insertId;
     } catch (error) {
       throw new Error(`Erro ao criar cliente: ${error.message}`);
@@ -70,6 +71,11 @@ class ClienteModel {
     } catch (error) {
       throw new Error(`Erro ao deletar cliente: ${error.message}`);
     }
+  }
+
+  // Comparar senha
+  static async comparePassword(candidatePassword, hashedPassword) {
+    return await bcrypt.compare(candidatePassword, hashedPassword);
   }
 }
 

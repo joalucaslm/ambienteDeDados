@@ -22,23 +22,49 @@ Formato de cada item a seguir (copiar para Thunder Client -> New Request):
 1) Autenticação
 
 POST /auth/register
-- Descrição: registra um cliente e retorna um JWT (temporário, sem senha persistida).
-- Body (JSON):
+- Descrição: registra um cliente e retorna um JWT.
+- Body (JSON) (exemplo):
 {
-  "nome": "Maria Silva",
-  "email": "maria@test.com",
-  "telefone": "11999999999"
+  "nome": "Test Secure",
+  "email": "test_secure@test.com",
+  "telefone": "11999999999",
+  "senha": "Senha123!"
 }
-- Resposta esperada (201): { success: true, data: { id, nome, email, token, expiresIn }, message }
+- Resposta esperada (201):
+  {
+    "success": true,
+    "data": { "id": <id>, "nome": "Test Secure", "email": "test_secure@test.com", "token": "<token>", "expiresIn": "24h" },
+    "message": "Usuário registrado com sucesso!"
+  }
 
 POST /auth/login
-- Descrição: faz login. Atualmente aceita qualquer senha se o email existir (temporário).
-- Body (JSON):
+- Descrição: faz login usando email + senha. Retorna JWT se as credenciais estiverem corretas.
+- Body (JSON) (exemplo):
 {
-  "email": "maria@test.com",
-  "senha": "qualquercoisa"
+  "email": "test_secure@test.com",
+  "senha": "Senha123!"
 }
-- Resposta esperada (200): { success: true, data: { id, nome, email, token, expiresIn }, message }
+- Resposta esperada (200):
+  {
+    "success": true,
+    "data": { "id": <id>, "nome": "Test Secure", "email": "test_secure@test.com", "token": "<token>", "expiresIn": "24h" },
+    "message": "Login realizado com sucesso!"
+  }
+
+Test user (pré-criado durante testes)
+- Email: `test_secure@test.com`
+- Senha: `Senha123!`
+
+Como copiar o token e usar no Thunder Client
+- Após o `POST /auth/login` copie o valor do campo `data.token` da resposta.
+- Crie ou abra uma request no Thunder Client e adicione o header:
+  - Key: `Authorization`
+  - Value: `Bearer <COLE_AQUI_O_TOKEN>`
+
+Exemplo de header com token (use o token retornado pelo login):
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9....
+
+Observação: o token expira em 24 horas. Se o token expirar, execute `POST /auth/login` novamente para obter um novo token.
 
 2) Cliente
 

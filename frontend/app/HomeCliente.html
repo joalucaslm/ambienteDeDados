@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Página Inicial - Delivery App</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#f45925",
+                        "background-light": "#f8f6f5",
+                        "background-dark": "#221410",
+                    },
+                    fontFamily: {
+                        "display": ["Be Vietnam Pro", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.5rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+<div class="relative flex min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- TopNavBar -->
+<header class="sticky top-0 z-10 flex w-full items-center justify-between whitespace-nowrap border-b border-solid border-stone-200/80 bg-background-light/80 px-4 py-3 backdrop-blur-sm dark:border-stone-800/80 dark:bg-background-dark/80 sm:px-6 md:px-8">
+<div class="flex items-center gap-2 text-[#181311] dark:text-stone-100">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<h2 class="text-base font-bold leading-tight tracking-[-0.015em] text-[#181311] dark:text-stone-100">Entregar em: Rua...</h2>
+</div>
+<button class="flex cursor-pointer items-center justify-center overflow-hidden rounded-full h-10 w-10 text-[#181311] dark:text-stone-100">
+<span class="material-symbols-outlined text-2xl">person</span>
+</button>
+</header>
+<main class="flex-1">
+<div class="layout-content-container mx-auto flex max-w-4xl flex-col flex-1">
+<!-- Chips / Category Filter -->
+<div class="w-full">
+<div class="flex gap-3 px-4 py-4 overflow-x-auto whitespace-nowrap">
+<div class="flex h-9 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-primary px-4">
+<p class="text-white text-sm font-medium leading-normal">Lanche</p>
+</div>
+<div class="flex h-9 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-stone-200/80 px-4 dark:bg-stone-700/60 hover:bg-stone-300 dark:hover:bg-stone-600">
+<p class="text-[#181311] dark:text-stone-200 text-sm font-medium leading-normal">Pizza</p>
+</div>
+<div class="flex h-9 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-stone-200/80 px-4 dark:bg-stone-700/60 hover:bg-stone-300 dark:hover:bg-stone-600">
+<p class="text-[#181311] dark:text-stone-200 text-sm font-medium leading-normal">Japonesa</p>
+</div>
+<div class="flex h-9 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-stone-200/80 px-4 dark:bg-stone-700/60 hover:bg-stone-300 dark:hover:bg-stone-600">
+<p class="text-[#181311] dark:text-stone-200 text-sm font-medium leading-normal">Brasileira</p>
+</div>
+<div class="flex h-9 shrink-0 cursor-pointer items-center justify-center gap-x-2 rounded-full bg-stone-200/80 px-4 dark:bg-stone-700/60 hover:bg-stone-300 dark:hover:bg-stone-600">
+<p class="text-[#181311] dark:text-stone-200 text-sm font-medium leading-normal">Saudável</p>
+</div>
+</div>
+</div>
+<!-- SectionHeader -->
+<h2 class="text-[#181311] dark:text-stone-100 text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-2 pt-4">Descubra restaurantes</h2>
+<!-- Restaurant List -->
+<div class="grid grid-cols-1 gap-x-4 md:grid-cols-2 lg:grid-cols-3">
+<!-- Card 1 -->
+<div class="p-4 @container hover:bg-stone-200/40 dark:hover:bg-stone-800/40 rounded-xl transition-colors">
+<div class="flex flex-col items-stretch justify-start">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" data-alt="A delicious looking burger with fries" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuAmJoPgo1Bx40wEMJSaHUM93HK4M6pltQdcZ3rNABaUiEJIgOd-idiX4ufVN2fgZv2SxsYJ41sj3FW7DodhlstUrF40NhMSV5-7jO35zmRCh7rzaW4uYapV3bC3k-Q4kNK5BSZHD1z-ggrGnksSRU-8rGehT79jCoN-Utna5KsqtYh8jw17_cbGjHJ18pEvWp2z7N4lQKJU7NYACRqSahl38Y-TnYmJ1AyCz5IumHbgXvc2CBe1kVX9-qMwaKbkRfvmSA3RfrN7-9A");'></div>
+<div class="flex w-full min-w-0 grow flex-col items-stretch justify-center gap-1 py-4">
+<p class="text-[#181311] dark:text-stone-100 text-lg font-bold leading-tight tracking-[-0.015em]">Burger Queen</p>
+<div class="flex items-center gap-1">
+<p class="text-sm font-medium leading-normal text-amber-500">★ 4.8</p>
+<p class="text-stone-500 dark:text-stone-400 text-sm font-normal leading-normal"> • Lanche • 25-35 min</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 2 -->
+<div class="p-4 @container hover:bg-stone-200/40 dark:hover:bg-stone-800/40 rounded-xl transition-colors">
+<div class="flex flex-col items-stretch justify-start">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" data-alt="A classic pepperoni pizza on a wooden board" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuBW7h-HpARP08s_zovfTWk5seYFT5YBL7Hlo_cVU-WdZFaeAtx5rRGVnGVhkvsD1usRt4Nl2wSoaGkE_1cjrgtLQYFaWoBCiKQvQf1-u-hZeExb0KVemgMKxUYoLUEPgEouO5iXOTM7_BM8HecNy7URkrUdi5wVA200xcCVWMSfuPNv8Px_2Bb0ZQtdgm1I1x_0QoDeB3MENNRAm-PB7ZDNLarRyzp5A1Ilr2PR6g5YjU6lWpekAiqMe8TZlJAIBYjZvvANRoB7oNM");'></div>
+<div class="flex w-full min-w-0 grow flex-col items-stretch justify-center gap-1 py-4">
+<p class="text-[#181311] dark:text-stone-100 text-lg font-bold leading-tight tracking-[-0.015em]">Pizza Palace</p>
+<div class="flex items-center gap-1">
+<p class="text-sm font-medium leading-normal text-amber-500">★ 4.9</p>
+<p class="text-stone-500 dark:text-stone-400 text-sm font-normal leading-normal"> • Pizza • 30-40 min</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 3 -->
+<div class="p-4 @container hover:bg-stone-200/40 dark:hover:bg-stone-800/40 rounded-xl transition-colors">
+<div class="flex flex-col items-stretch justify-start">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" data-alt="A variety of sushi rolls arranged on a platter" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuCyaLs37AnRLyxX2uVsDclW0rr5WsFWL1XPVkt3dJJTlEy4y-uzL7J3nJj7nLEiPvbYDzwyoJdZHM-j62khzr0R4ehCHvVqN10PhLc1I4oUKXl1n1NBqc1C16CaEgr1iqJtx9NL7ZVEdLS57qEUG5sKmsz-1rV0hK6P0J4KEs94AUfK7uOctLjOrIXfqhrVPV0UeVYKQj_s3FuF9GMC7XSV1WoUQqNTfmv8NqQD5QgcdIFx20ln_4Bao_eXgDpDqaWbkHErkxmoweo");'></div>
+<div class="flex w-full min-w-0 grow flex-col items-stretch justify-center gap-1 py-4">
+<p class="text-[#181311] dark:text-stone-100 text-lg font-bold leading-tight tracking-[-0.015em]">Sushi House</p>
+<div class="flex items-center gap-1">
+<p class="text-sm font-medium leading-normal text-amber-500">★ 4.7</p>
+<p class="text-stone-500 dark:text-stone-400 text-sm font-normal leading-normal"> • Japonesa • 40-50 min</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Card 4 -->
+<div class="p-4 @container hover:bg-stone-200/40 dark:hover:bg-stone-800/40 rounded-xl transition-colors">
+<div class="flex flex-col items-stretch justify-start">
+<div class="w-full bg-center bg-no-repeat aspect-video bg-cover rounded-xl" data-alt="A healthy salad bowl with fresh greens, tomatoes, and avocado" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuB7soSGdjfqEk_hCCOofIxt4QPe8OUkLeGlmztTmzAkIxNhzQ1Wup92ut-vkOunLRsMdxzLzDVJ7BIhcHI9cSVnkIf0rE7uFB8yg9Vo_ruiX6ccMIp2lLCtAWM8AclKk3EumqkhrhzzAzJH3Gkha2Jo256AyWgoI2Sy_5ED2STlWCYuhVA4CXND0MiwhBzttSz7rN21iqAbfcBDxIEOVQ8QTByUIe7BWq2kWP6LASI18vls7HHWqlkYlN17eO1DB-8xfRS_4Pl3pQg");'></div>
+<div class="flex w-full min-w-0 grow flex-col items-stretch justify-center gap-1 py-4">
+<p class="text-[#181311] dark:text-stone-100 text-lg font-bold leading-tight tracking-[-0.015em]">Green Delight</p>
+<div class="flex items-center gap-1">
+<p class="text-sm font-medium leading-normal text-amber-500">★ 4.9</p>
+<p class="text-stone-500 dark:text-stone-400 text-sm font-normal leading-normal"> • Saudável • 20-30 min</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+</div>
+<script src="home.js"></script>
+</body></html>

@@ -33,6 +33,29 @@ class PedidoModel {
       throw new Error(`Erro ao buscar pedidos do usuário: ${error.message}`);
     }
   }
+
+  static async findByClienteId(idCliente) {
+    const query = `
+      SELECT
+        p.idPedido AS id,
+        r.nome AS nomeRestaurante,
+        r.urlFoto AS fotoRestaurante,
+        p.inicioPedido AS dataPedido,
+        p.status,
+        p.precoPedido AS valorTotal
+      FROM pedido AS p
+      JOIN restaurante AS r ON p.idRestaurante = r.idRestaurante
+      WHERE p.idCliente = ?
+      ORDER BY p.inicioPedido DESC;
+    `;
+    try {
+      const [rows] = await pool.query(query, [idCliente]);
+      return rows;
+    } catch (error) {
+      throw new Error(`Erro ao buscar pedidos do cliente: ${error.message}`);
+    }
+  }
+
   /** novo status do pedido.
    * @returns {Promise<number>} O número de linhas afetadas (0 ou 1).
    */

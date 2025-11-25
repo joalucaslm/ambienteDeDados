@@ -82,6 +82,55 @@ class RestauranteModel {
       throw new Error(`Erro ao deletar restaurante: ${error.message}`);
     }
   }
+
+  static async findPedidosById(idRestaurante) {
+    const query = `
+      SELECT
+        p.idPedido AS id,
+        p.status,
+        c.nome AS nomeCliente,
+        i.nome AS nomeItem,
+        pi.quantidade,
+        pi.precoUnitario,
+        p.observacoes
+      FROM pedido AS p
+      JOIN cliente AS c ON p.idCliente = c.idCliente
+      LEFT JOIN pedido_item AS pi ON p.idPedido = pi.idPedido
+      LEFT JOIN item AS i ON pi.idItem = i.idItem
+      WHERE p.idRestaurante = ?
+      ORDER BY p.inicioPedido DESC;
+    `;
+    try {
+      const [rows] = await pool.query(query, [idRestaurante]);
+      
+      // Agrupar itens por pedido
+      const pedidos = {};
+      rows.forEach(row => {
+        if (!pedidos[row.id]) {
+          pedidos[row.id] = {
+            id: row.id,
+            status: row.status,
+            nomeCliente: row.nomeCliente,
+            observacoes: row.observacoes,
+            itens: []
+          };
+        }
+        if (row.nomeItem) {
+          pedidos[row.id].itens.push({
+            nomeItem: row.nomeItem,
+            quantidade: row.quantidade,
+            precoUnitario: row.precoUnitario
+          });
+        }
+      });
+
+      return Object.values(pedidos);
+    } catch (error) {
+      throw new Error(
+        `Erro ao buscar pedidos do restaurante: ${error.message}`
+      );
+    }
+  }
 }
 
 module.exports = RestauranteModel;

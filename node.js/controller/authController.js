@@ -1,18 +1,19 @@
 // controller/authController.js
 
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs"); // Importar bcryptjs
 const ClienteModel = require("../models/clienteModel");
 
 // POST /auth/register - Registrar novo usuário
 const register = async (req, res) => {
   try {
-    const { nome, email, telefone } = req.body;
+    const { nome, email, telefone, senha } = req.body; // Adicionar senha
 
-    // Validações: senha não é obrigatória nessa versão (projeto de faculdade)
-    if (!nome || !email || !telefone) {
+    // Validações
+    if (!nome || !email || !telefone || !senha) { // Senha agora é obrigatória
       return res.status(400).json({
         success: false,
-        message: "nome, email e telefone são obrigatórios"
+        message: "nome, email, telefone e senha são obrigatórios"
       });
     }
 
@@ -25,6 +26,14 @@ const register = async (req, res) => {
       });
     }
 
+    // Validar comprimento da senha
+    if (senha.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "A senha deve ter no mínimo 6 caracteres"
+      });
+    }
+
     // Verificar se email já existe
     const clienteExistente = await ClienteModel.findByEmail(email);
     if (clienteExistente) {
@@ -34,11 +43,15 @@ const register = async (req, res) => {
       });
     }
 
+    // Hash da senha
+    const hashedPassword = await bcrypt.hash(senha, 10); // 10 é o saltRounds
+
     // Criar novo cliente
     const novoClienteId = await ClienteModel.create({
       nome,
       email,
-      telefone
+      telefone,
+      senha: hashedPassword // Armazenar senha hash
     });
 
     // Gerar JWT
@@ -91,8 +104,14 @@ const login = async (req, res) => {
       });
     }
 
-    // Nesta versão para testes acadêmicos, não há verificação de senha
-    // (a tabela cliente não possui coluna senha). Aceita qualquer senha se o email existir.
+    // Verificar senha
+    const isMatch = await ClienteModel.comparePassword(senha, cliente.senha);
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        message: "Senha incorreta"
+      });
+    }
 
     // Gerar JWT
     const token = jwt.sign(

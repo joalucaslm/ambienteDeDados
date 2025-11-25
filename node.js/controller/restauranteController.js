@@ -247,11 +247,26 @@ const deleteRestaurante = async (req, res) => {
   }
 };
 
+const getPedidosByRestaurante = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const pedidos = await RestauranteModel.findPedidosById(id);
+    return res.status(200).json(pedidos);
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getRestaurantes,
   getRestauranteById,
   getRestaurantesByPreco,
   createRestaurante,
   updateRestaurante,
-  deleteRestaurante
+  deleteRestaurante,
+  getPedidosByRestaurante,
 };

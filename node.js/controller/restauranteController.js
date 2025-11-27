@@ -354,6 +354,28 @@ const createRestauranteTipoCozinha = async (req, res) => {
   }
 };
 
+// GET /restaurante/id:/allInfos - Buscar todos os restaurantes
+const getRestauranteInfos = async (req, res) => {
+  try {
+    const { restauranteId } = req.params;
+
+    const restauranteInfo = await RestauranteModel.restauranteInfoById(restauranteId);
+
+    return res.status(200).json({
+      success: true,
+      data: restauranteInfo,
+      message: `Todas as informações sobre o restaurante com o id:${restauranteId}`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message,
+    });
+  }
+};
+
+
 module.exports = {
   getRestaurantes,
   getRestauranteById,
@@ -365,4 +387,5 @@ module.exports = {
   createTipoCozinha,
   createPagamento,
   createRestauranteTipoCozinha,
+  getRestauranteInfos
 };

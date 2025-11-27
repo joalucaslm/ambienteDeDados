@@ -22,6 +22,8 @@ router.get("/:idPedido", pedidoController.getPedidoById);
 
 router.patch("/:idPedido/status", pedidoController.patchPedidoStatus);
 
+router.get("/:idPedido/allInfos", pedidoController.getPedidoInfoById);
+
 
 
 

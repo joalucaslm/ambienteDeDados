@@ -247,6 +247,27 @@ const createPedidoItem = async (req, res) => {
   }
 };
 
+// GET /pedido/id:/allInfos - Buscar todos os restaurantes
+const getPedidoInfoById = async (req, res) => {
+  try {
+    const { idPedido } = req.params;
+
+    const pedidoInfo = await PedidoModel.pedidoInfoById(idPedido);
+
+    return res.status(200).json({
+      success: true,
+      data: pedidoInfo,
+      message: `Todas as informações sobre o restaurante com o id:${idPedido}`,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      data: null,
+      message: error.message,
+    });
+  }
+};
+
 
 module.exports = {
   getPedidos,
@@ -256,4 +277,5 @@ module.exports = {
   patchPedidoStatus,
   getPedidosByCliente,
   createPedidoItem,
+  getPedidoInfoById
 };

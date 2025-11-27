@@ -2,64 +2,48 @@
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs"); // Importar bcryptjs
-const ClienteModel = require("../models/clienteModel");
+const LoginModel = require("../models/loginModel");
 
-// POST /auth/register - Registrar novo usuário
 const register = async (req, res) => {
   try {
-    const { nome, email, telefone, senha } = req.body; // Adicionar senha
+    const { username, password } = req.body;
 
     // Validações
-    if (!nome || !email || !telefone || !senha) { // Senha agora é obrigatória
+    if (!username || !password) {
       return res.status(400).json({
         success: false,
-        message: "nome, email, telefone e senha são obrigatórios"
-      });
-    }
-
-    // Validar formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        success: false,
-        message: "Formato de email inválido"
+        message: "username e password são obrigatórios"
       });
     }
 
     // Validar comprimento da senha
-    if (senha.length < 6) {
+    if (password.length < 6) {
       return res.status(400).json({
         success: false,
         message: "A senha deve ter no mínimo 6 caracteres"
       });
     }
 
-    // Verificar se email já existe
-    const clienteExistente = await ClienteModel.findByEmail(email.toLowerCase());
-    if (clienteExistente) {
+    // Verificar se username já existe
+    const usuarioExistente = await LoginModel.findByUsername(username);
+    if (usuarioExistente) {
       return res.status(409).json({
         success: false,
-        message: "Email já cadastrado"
+        message: "Username já cadastrado"
       });
     }
 
     // Hash da senha
-    const hashedPassword = await bcrypt.hash(senha, 10); // 10 é o saltRounds
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Criar novo cliente
-    const novoClienteId = await ClienteModel.create({
-      nome,
-      email: email.toLowerCase(),
-      telefone,
-      senha: hashedPassword // Armazenar senha hash
+    // Criar usuário
+    const novoUsuarioId = await LoginModel.create({
+      username,
+      password: hashedPassword
     });
 
-    // Gerar JWT
-    if (!process.env.SECRET_KEY) {
-      throw new Error("SECRET_KEY não definida no ambiente");
-    }
     const token = jwt.sign(
-      { id: novoClienteId, email: email.toLowerCase() },
+      { id: novoUsuarioId, username },
       process.env.SECRET_KEY,
       { expiresIn: "24h" }
     );
@@ -67,18 +51,18 @@ const register = async (req, res) => {
     return res.status(201).json({
       success: true,
       data: {
-        id: novoClienteId,
-        nome,
-        email,
+        id: novoUsuarioId,
+        username,
         token,
         expiresIn: "24h"
       },
       message: "Usuário registrado com sucesso!"
     });
+
   } catch (error) {
+    console.error('Erro no register:', error);
     return res.status(500).json({
       success: false,
-      data: null,
       message: error.message
     });
   }
@@ -87,32 +71,31 @@ const register = async (req, res) => {
 // POST /auth/login - Fazer login
 const login = async (req, res) => {
   try {
-    const { email, senha } = req.body;
+    const { username, password } = req.body;
 
     // Validações
-    if (!email || !senha) {
+    if (!username || !password) {
       return res.status(400).json({
         success: false,
-        message: "Email e senha são obrigatórios"
+        message: "username e password são obrigatórios"
       });
     }
 
-    // Buscar cliente por email
-    const cliente = await ClienteModel.findByEmail(email);
-    
-    if (!cliente) {
-      return res.status(404).json({
+    // Buscar usuário
+    const usuario = await LoginModel.findByUsername(username);
+    if (!usuario) {
+      return res.status(401).json({
         success: false,
-        message: "Usuário não encontrado"
+        message: "Username ou senha incorretos"
       });
     }
 
     // Verificar senha
-    const isMatch = await ClienteModel.comparePassword(senha, cliente.senha);
-    if (!isMatch) {
+    const senhaCorreta = await bcrypt.compare(password, usuario.password);
+    if (!senhaCorreta) {
       return res.status(401).json({
         success: false,
-        message: "Senha incorreta"
+        message: "Username ou senha incorretos"
       });
     }
 
@@ -120,8 +103,9 @@ const login = async (req, res) => {
     if (!process.env.SECRET_KEY) {
       throw new Error("SECRET_KEY não definida no ambiente");
     }
+
     const token = jwt.sign(
-      { id: cliente.id, email: cliente.email },
+      { id: usuario.idLogin, username: usuario.username },
       process.env.SECRET_KEY,
       { expiresIn: "24h" }
     );
@@ -129,18 +113,18 @@ const login = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: {
-        id: cliente.id,
-        nome: cliente.nome,
-        email: cliente.email,
+        id: usuario.idLogin,
+        username: usuario.username,
         token,
         expiresIn: "24h"
       },
       message: "Login realizado com sucesso!"
     });
+
   } catch (error) {
+    console.error('Erro no login:', error);
     return res.status(500).json({
       success: false,
-      data: null,
       message: error.message
     });
   }

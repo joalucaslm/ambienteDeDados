@@ -135,3 +135,9 @@ SHOW CREATE TABLE pedido_item;
 
 INSERT INTO pedido_item(idPedido, idItem, quantidade, precoUnitario)
 	VALUES (1, 1, 3, 37.99);
+
+# MANIPULAÇÕES na TABELA login
+SELECT * FROM login;
+
+INSERT INTO login (idLogin, username, password)
+VALUES ('1' , "joao.lima", "12345");

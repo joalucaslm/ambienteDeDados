@@ -1,6 +1,6 @@
-console.log("### LENDO ROTAS (v2) ###");
 const express = require("express");
 const pedidoController = require("../controller/pedidoController");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -22,5 +22,6 @@ router.get("/:idPedido", pedidoController.getPedidoById);
 
 router.patch("/:idPedido/status", pedidoController.patchPedidoStatus);
 
+router.get("/:idPedido/allInfos", authMiddleware, pedidoController.getPedidoInfoById);
 
 module.exports = router;

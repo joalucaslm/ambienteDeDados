@@ -12,4 +12,7 @@ router.post("/", itemController.createItem);
 router.put("/:id", itemController.updateItem);
 router.delete("/:id", itemController.deleteItem);
 
+router.post("/tipoItem", itemController.createTipoItem);
+
+
 module.exports = router;

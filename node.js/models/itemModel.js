@@ -82,6 +82,19 @@ class ItemModel {
       throw new Error(`Erro ao deletar item: ${error.message}`);
     }
   }
+
+   // Criar novo tipo item
+  static async createTipoItem(tipoItemData) {
+    const { nome } = tipoItemData;
+    const query = "INSERT INTO tipo_item (nome) VALUES (?)";
+    
+    try {
+      const [result] = await pool.query(query, [nome]);
+      return result.insertId;
+    } catch (error) {
+      throw new Error(`Erro ao criar item: ${error.message}`);
+    }
+  }
 }
 
 module.exports = ItemModel;

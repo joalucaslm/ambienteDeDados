@@ -19,4 +19,12 @@ router.put("/:id", restauranteController.updateRestaurante);
 
 router.delete("/:id", restauranteController.deleteRestaurante);
 
+router.post("/tipoCozinha", restauranteController.createTipoCozinha);
+
+// João Lucas criou
+router.post("/restauranteTipoCozinha", restauranteController.createRestauranteTipoCozinha);
+router.post("/pagamento", restauranteController.createPagamento);
+router.get("/:restauranteId/allInfos", restauranteController.getRestauranteInfos);
+
+
 module.exports = router;

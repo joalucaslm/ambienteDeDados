@@ -60,13 +60,12 @@ class PedidoModel {
    * @returns {Promise<number>} O número de linhas afetadas (0 ou 1).
    */
   static async updateStatus(idPedido, status) {
-   
     const query = "UPDATE pedido SET status = ? WHERE idPedido = ?";
-    
+
     try {
       // Passamos [status, idPedido] para substituir os '?'
       const [result] = await pool.query(query, [status, idPedido]);
-      
+
       // Retorna o número de linhas que foram de fato atualizadas
       // Se for 0, significa que o 'idPedido' não foi encontrado.
       return result.affectedRows;
@@ -79,87 +78,110 @@ class PedidoModel {
    * @param {Object} pedidoData - Contém os dados do pedido e um array de itens.
    * Ex: { idCliente: 1, idRestaurante: 2, ..., itens: [{ idItem: 5, quantidade: 2 }, ...] }
    */
-  static async create(pedidoData) {
 
+  static async create(pedidoData) {
     const {
-      idCliente, // Lembre-se da divergência idCliente/idUsuario
+      idCliente,
       status,
       idPagamento,
+      avaliacao,
+      estrelas,
       precoPedido,
       idEntregador,
       idRestaurante,
       inicioPedido,
       fimPedido,
       idEnderecoCliente,
-      itens 
     } = pedidoData;
 
-    // 1. Obter uma conexão do pool (necessário para a transação)
-    let connection;
+    // Query correta com 11 colunas e 11 placeholders
+    const query = `
+    INSERT INTO pedido 
+      (idCliente, status, idPagamento, avaliacao, estrelas, precoPedido, idEntregador, idRestaurante, inicioPedido, fimPedido, idEnderecoCliente)
+    VALUES 
+      (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+  `;
+
+    // Valores na ordem EXATA da query
+    const values = [
+      idCliente,
+      status,
+      idPagamento,
+      avaliacao ?? null,
+      estrelas ?? null,
+      precoPedido,
+      idEntregador ?? null,
+      idRestaurante,
+      inicioPedido,
+      fimPedido ?? null,
+      idEnderecoCliente,
+    ];
+
     try {
-      connection = await db.getConnection(); 
-      await connection.beginTransaction(); 
-
-      
-      const pedidoSql = `
-        INSERT INTO pedido 
-          (idCliente, status, idPagamento, precoPedido, idEntregador, idRestaurante, inicioPedido, fimPedido, idEnderecoCliente)
-        VALUES 
-          (?, ?, ?, ?, ?, ?, ?, ?, ?)
-      `;
-      const pedidoValues = [
-        idCliente,
-        status || 'Pendente',
-        idPagamento,
-        precoPedido,
-        idEntregador,
-        idRestaurante,
-        inicioPedido,
-        fimPedido,
-        idEnderecoCliente
-      ];
-      
-      const [resultPedido] = await connection.query(pedidoSql, pedidoValues);
-      const novoPedidoId = resultPedido.insertId; // Pega o ID do pedido que acabou de ser criado
-
-      // 3. Verificar se há itens para inserir
-      if (itens && itens.length > 0) {
-        
-        // 4. Inserir os itens na tabela 'pedido_item'
-        const itemSql = `
-          INSERT INTO pedido_item (idPedido, idItem, quantidade, precoUnitario) 
-          VALUES (?, ?, ?, ?)
-        `;
-
-        // Prepara todos os inserts dos itens
-        // (Usamos precoUnitario do item, mas o ideal seria buscar do DB)
-        for (const item of itens) {
-          const itemValues = [
-            novoPedidoId, // ID do pedido que criamos
-            item.idItem,
-            item.quantidade,
-            item.precoUnitario // Importante: O front-end deve mandar isso
-          ];
-          await connection.query(itemSql, itemValues);
-        }
-      }
-
-      // 5. Se tudo deu certo, "commita" a transação
-      await connection.commit();
-      return novoPedidoId; // Retorna o ID do novo pedido
-
+      const [result] = await pool.query(query, values);
+      return result.insertId;
     } catch (error) {
-      // 6. Se algo deu errado, "desfaz" tudo (rollback)
-      if (connection) {
-        await connection.rollback();
-      }
       throw new Error(`Erro ao criar pedido: ${error.message}`);
-    
-    } finally {
-      // 7. SEMPRE libera a conexão de volta para o pool
-      if (connection) {
-        connection.release();
-      }
+    }
+  }
+
+  static async createPedidoItem(pedidoItemData) {
+    const { idPedido, idItem, quantidade, precoUnitario } = pedidoItemData;
+    const query =
+      "INSERT INTO pedido_item (idPedido, idItem, quantidade, precoUnitario) VALUES (?, ?, ?, ?)";
+
+    try {
+      const [result] = await pool.query(query, [
+        idPedido,
+        idItem,
+        quantidade,
+        precoUnitario,
+      ]);
+      return result.insertId;
+    } catch (error) {
+      throw new Error(`Erro ao criar item: ${error.message}`);
+    }
+  }
+
+  // Evita o problema de SQL INJECTION
+  static async pedidoInfoById(pedidoId) {
+    const query = `
+   SELECT 
+    p.id,
+    clnt.nome AS nomeCliente,
+    p.status,
+    pag.nome AS metodoPagamento,
+    p.avaliacao,
+    p.estrelas,
+    p.precoPedido,
+    entr.nome AS entregador,
+    rest.nome AS restaurante,
+    p.inicioPedido,
+    p.fimPedido,
+    CONCAT_WS(', ', 
+        end.logradouro, 
+        end.numero, 
+        end.complemento, 
+        end.bairro, 
+        end.cidade, 
+        end.estado, 
+        end.cep
+    ) AS enderecoCompleto,
+    end.referencia AS referenciaEndereco
+FROM pedido p
+INNER JOIN cliente clnt ON p.idCliente = clnt.id
+INNER JOIN pagamento pag ON p.idPagamento = pag.id
+INNER JOIN entregador entr ON p.idEntregador = entr.id
+INNER JOIN restaurante rest ON p.idRestaurante = rest.id
+INNER JOIN endereco end ON p.idEnderecoCliente = end.id
+WHERE p.id = ?;
+  `;
+
+    try {
+      const [rows] = await pool.query(query, [pedidoId]);
+      return rows[0] || null;
+    } catch (error) {
+      throw new Error(`Erro ao buscar restaurante: ${error.message}`);
     }
   }
 }

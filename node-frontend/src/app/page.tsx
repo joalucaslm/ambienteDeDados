@@ -84,32 +84,43 @@ export default function Home() {
     setMenuAberto(false);
   };
 
-  const buscarDados = async (): Promise<void> => {
-    if (!idBusca) {
-      setErro('Por favor, insira um ID');
-      return;
-    }
+const buscarDados = async (): Promise<void> => {
+  if (!idBusca) {
+    setErro('Por favor, insira um ID');
+    return;
+  }
 
-    setLoading(true);
-    setErro('');
-    setDados(null);
+  setLoading(true);
+  setErro('');
+  setDados(null);
 
-    try {
-      const url = `http://localhost:8080/${tipoBusca}/${idBusca}/allInfos`;
-      const response = await fetch(url);
-      const result: ApiResponse = await response.json();
+  try {
+    const url = `http://localhost:8080/${tipoBusca}/${idBusca}/allInfos`;
 
-      if (result.success) {
-        setDados(result.data);
-      } else {
-        setErro('Dados não encontrados');
+    const token = sessionStorage.getItem('token'); // <-- PEGAR O TOKEN
+
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`, // <-- ENVIAR COMO BEARER TOKEN
+        'Content-Type': 'application/json'
       }
-    } catch (error) {
-      setErro('Erro ao buscar dados. Verifique se o servidor está rodando.');
-    } finally {
-      setLoading(false);
+    });
+
+    const result: ApiResponse = await response.json();
+
+    if (result.success) {
+      setDados(result.data);
+    } else {
+      setErro('Dados não encontrados');
     }
-  };
+  } catch (error) {
+    setErro('Erro ao buscar dados. Verifique se o servidor está rodando.');
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>): void => {
     if (e.key === 'Enter') {
